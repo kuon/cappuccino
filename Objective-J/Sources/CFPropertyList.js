@@ -515,48 +515,12 @@ function decodeHTMLComponent(/*String*/ aString)
     return aString.replace(/&quot;/g, '"').replace(/&apos;/g, '\'').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
 }
 
-#ifdef CONFIG_PLATFORM_OTHER
-function parseXML(/*String*/ aString)
-{
-    CONFIG_XML_PARSER_FUNCTION(aString);
-}
-#elif defined(CONFIG_PLATFORM_NODEJS)
-function parseXML(/*String*/ aString)
-{
-// FIXME: write a nodejs parser solution
-    return NULL;
-}
-#elif defined(CONFIG_PLATFORM_BROWSER)
-function parseXML(/*String*/ aString)
-{
-    if (window.DOMParser)
-        return DOCUMENT_ELEMENT(new window.DOMParser().parseFromString(aString, "text/xml"));
-
-    else if (window.ActiveXObject)
-    {
-        XMLNode = new ActiveXObject("Microsoft.XMLDOM");
-
-        // Extract the DTD, which confuses IE.
-        var matches = aString.match(CFPropertyList.DTDRE);
-
-        if (matches)
-            aString = aString.substr(matches[0].length);
-
-        XMLNode.loadXML(aString);
-
-        return XMLNode
-    }
-
-    return NULL;
-}
-#endif
-
 CFPropertyList.propertyListFromXML = function(/*String | XMLNode*/ aStringOrXMLNode)
 {
     var XMLNode = aStringOrXMLNode;
 
     if (aStringOrXMLNode.valueOf && typeof aStringOrXMLNode.valueOf() === "string")
-        XMLNode = parseXML(aStringOrXMLNode);
+        XMLNode = CFXMLParseString(aStringOrXMLNode);
 
     // Skip over DOCTYPE and so forth.
     while (IS_OF_TYPE(XMLNode, XML_DOCUMENT) || IS_OF_TYPE(XMLNode, XML_XML))

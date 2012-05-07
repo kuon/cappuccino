@@ -34,9 +34,8 @@
 #include "CPLog.js"
 #include "Constants.js"
 #include "EventDispatcher.js"
-#ifdef CONFIG_PLATFORM_BROWSER // at present only supported inside the browser
+#include "CFXML.js"
 #include "CFHTTPRequest.js"
-#endif
 #include "CFPropertyList.js"
 #include "CFDictionary.js"
 #include "CFData.js"

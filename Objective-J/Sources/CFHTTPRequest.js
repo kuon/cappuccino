@@ -61,6 +61,9 @@ function Asynchronous(/*Function*/ aFunction)
 
 var NativeRequest = null;
 
+#ifdef CONFIG_NATIVE_REQUEST_CONSTRUCTOR
+NativeRequest = CONFIG_NATIVE_REQUEST_CONSTRUCTOR
+#elif defined(CONFIG_PLATFORM_BROWSER)
 // We check ActiveXObject first, because we require local file access and
 // overrideMimeType feature (which the native XMLHttpRequest does not have in IE).
 if (window.ActiveXObject !== undefined)
@@ -92,6 +95,8 @@ if (window.ActiveXObject !== undefined)
 
 if (!NativeRequest)
     NativeRequest = window.XMLHttpRequest;
+#elif defined(CONFIG_PLATFORM_NODEJS)
+#endif
 
 GLOBAL(CFHTTPRequest) = function()
 {
@@ -174,7 +179,7 @@ CFHTTPRequest.prototype.responseXML = function()
     if (responseXML && (NativeRequest === window.XMLHttpRequest))
         return responseXML;
 
-    return parseXML(this.responseText());
+    return CFXMLParseString(this.responseText());
 };
 
 CFHTTPRequest.prototype.responsePropertyList = function()

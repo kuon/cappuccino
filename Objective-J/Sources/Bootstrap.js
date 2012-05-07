@@ -21,7 +21,7 @@
  */
 
 
-#ifdef CONFIG_PLATFORM_OTHER
+#ifdef CONFIG_MAIN_BUNDLE_PATH
 var mainBundleURL = new CFURL("file:" + CONFIG_MAIN_BUNDLE_PATH);
 #elif defined(CONFIG_PLATFORM_NODEJS)
 var mainBundleURL = new CFURL("file:" + process.cwd());

@@ -160,12 +160,10 @@ GLOBAL(CPLogConsole) = function(aString, aLevel, aTitle, aFormatter)
     }
 }
 
-#ifdef CONFIG_PLATFORM_OTHER
+#ifdef CONFIG_LOG_FUNCTION
 
 GLOBAL(CPLogPrint) = function(aString, aLevel, aTitle, aFormatter) {
-#ifdef CONFIG_LOG_FUNCTION
     CONFIG_LOG_FUNCTION(formatter(aString, aLevel, aTitle));
-#endif
 }
 
 #elif defined(CONFIG_PLATFORM_NODEJS)

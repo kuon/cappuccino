@@ -63,7 +63,7 @@ DISPLAY_NAME(CFBundle);
 
 CFBundle.environments = function()
 {
-#ifdef CONFIG_PLATFORM_OTHER
+#ifdef CONFIG_ENVIRONMENTS
     return CONFIG_ENVIRONMENTS;
 #elif defined(CONFIG_PLATFORM_NODEJS)
     return ['NodeJS', 'ObjJ'];
