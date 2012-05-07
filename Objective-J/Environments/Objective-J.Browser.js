@@ -1,4 +1,3 @@
-#define ENVIRONMENTS ['Browser', 'ObjJ']
 #define CONFIG_PLATFORM_BROWSER
 
 var ObjectiveJ = { };
