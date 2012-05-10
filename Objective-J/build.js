@@ -3,9 +3,9 @@ var fs = require('fs')
 var util = require('util')
 var puts = util.puts
 
-function preprocess(inpath, outpath)
+function preprocess(inpath, outpath, flags)
 {
-    exec('gcc -ISources -w  -E -x c -P '+ inpath + ' -o ' + outpath, function(error, stdout, stderr) {
+    exec('gcc ' + flags + ' -w  -E -x c -P '+ inpath + ' -o ' + outpath, function(error, stdout, stderr) {
         if (stdout)
             puts(stdout);
         if (stderr)
@@ -17,10 +17,11 @@ try {
     fs.mkdirSync('Build')
 } catch(err) {}
 
-var envs = fs.readdirSync('Environments');
+var platforms = fs.readdirSync('Platforms');
 
-for (var i = 0; i < envs.length; i++)
+for (var i = 0; i < platforms.length; i++)
 {
-    var env = envs[i];
-    preprocess('Environments/'+env, 'Build/'+env);
+    var p = platforms[i];
+    var flags = '-DDEBUG=1 -ISources -IPlatforms/' + p;
+    preprocess('Platforms/' + p + '/Objective-J.' + p + '.js', 'Build/Objective-J.' + p + '.js', flags);
 }

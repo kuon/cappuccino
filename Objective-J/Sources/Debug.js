@@ -20,20 +20,17 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifdef BROWSER
-CPLogRegister(CPLogDefault);
-#endif
 
 // formatting helpers
 
 function objj_debug_object_format(aReceiver)
 {
-    return (aReceiver && aReceiver.isa) ? exports.sprintf("<%s %#08x>", GETMETA(aReceiver).name, aReceiver._UID) : String(aReceiver);
+    return (aReceiver && aReceiver.isa) ? objj_sprintf("<%s %#08x>", GETMETA(aReceiver).name, aReceiver._UID) : String(aReceiver);
 }
 
 function objj_debug_message_format(aReceiver, aSelector)
 {
-    return exports.sprintf("[%s %s]", objj_debug_object_format(aReceiver), aSelector);
+    return objj_sprintf("[%s %s]", objj_debug_object_format(aReceiver), aSelector);
 }
 
 

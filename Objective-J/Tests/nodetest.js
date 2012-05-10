@@ -1,4 +1,6 @@
 require('../Build/Objective-J.NodeJS.js');
 
-objj_importFile('main.j');
+CPLogRegister(CPLogDefault);
+
+objj_executeFile('main.j');
 

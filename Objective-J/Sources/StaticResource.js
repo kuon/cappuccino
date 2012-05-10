@@ -36,7 +36,7 @@ StaticResource.rootResources = function()
     return rootResources;
 };
 
-exports.StaticResource = StaticResource;
+GLOBAL(objj_staticResource) = StaticResource;
 
 function resolveStaticResource(/*StaticResource*/ aResource)
 {
@@ -290,6 +290,9 @@ StaticResource.prototype.toString = function(/*BOOL*/ includeNotFounds)
 
 var includeURLs = NULL;
 
+GLOBAL(OBJJ_INCLUDE_PATHS) = nil;
+GLOBAL(OBJJ_INCLUDE_URLS) = nil;
+
 StaticResource.includeURLs = function()
 {
     if (includeURLs !== NULL)
@@ -297,10 +300,10 @@ StaticResource.includeURLs = function()
 
     includeURLs = [];
 
-    if (!global.OBJJ_INCLUDE_PATHS && !global.OBJJ_INCLUDE_URLS)
+    if (!OBJJ_INCLUDE_PATHS && !OBJJ_INCLUDE_URLS)
         includeURLs = ["Frameworks", "Frameworks/Debug"];
     else
-        includeURLs = (global.OBJJ_INCLUDE_PATHS || []).concat(global.OBJJ_INCLUDE_URLS || []);
+        includeURLs = (OBJJ_INCLUDE_PATHS || []).concat(OBJJ_INCLUDE_URLS || []);
 
     var count = includeURLs.length;
 

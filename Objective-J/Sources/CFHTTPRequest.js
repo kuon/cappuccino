@@ -20,50 +20,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-var asynchronousTimeoutCount = 0,
-    asynchronousTimeoutId = null,
-    asynchronousFunctionQueue = [];
-
-function Asynchronous(/*Function*/ aFunction)
-{
-    var currentAsynchronousTimeoutCount = asynchronousTimeoutCount;
-
-    if (asynchronousTimeoutId === null)
-    {
-        window.setNativeTimeout(function()
-        {
-            var queue = asynchronousFunctionQueue,
-                index = 0,
-                count = asynchronousFunctionQueue.length;
-
-            ++asynchronousTimeoutCount;
-            asynchronousTimeoutId = null;
-            asynchronousFunctionQueue = [];
-
-            for (; index < count; ++index)
-                queue[index]();
-        }, 0);
-    }
-
-    return function()
-    {
-        var args = arguments;
-
-        if (asynchronousTimeoutCount > currentAsynchronousTimeoutCount)
-            aFunction.apply(this, args);
-        else
-            asynchronousFunctionQueue.push(function()
-            {
-                aFunction.apply(this, args);
-            });
-    };
-}
-
+#ifdef CONFIG_HTTP_USE_XMLHTTPREQUEST
 var NativeRequest = null;
 
-#ifdef CONFIG_NATIVE_REQUEST_CONSTRUCTOR
-NativeRequest = CONFIG_NATIVE_REQUEST_CONSTRUCTOR
-#elif defined(CONFIG_PLATFORM_BROWSER)
 // We check ActiveXObject first, because we require local file access and
 // overrideMimeType feature (which the native XMLHttpRequest does not have in IE).
 if (window.ActiveXObject !== undefined)
@@ -95,7 +54,14 @@ if (window.ActiveXObject !== undefined)
 
 if (!NativeRequest)
     NativeRequest = window.XMLHttpRequest;
-#elif defined(CONFIG_PLATFORM_NODEJS)
+
+#elif defined(CONFIG_HTTP_USE_NODEJS)
+var NativeRequest = require('xmlhttprequest').XMLHttpRequest;
+
+#elif defined(CONFIG_HTTP_CUSTOM_CLASS)
+var NativeRequest = CONFIG_HTTP_CUSTOM_CLASS;
+#else
+#error Objective-J require an HTTP loading mechanism to load it's dependencies
 #endif
 
 GLOBAL(CFHTTPRequest) = function()
@@ -176,8 +142,10 @@ CFHTTPRequest.prototype.responseXML = function()
 {
     var responseXML = this._nativeRequest.responseXML;
 
+#ifdef CONFIG_HTTP_USE_XMLHTTPREQUEST
     if (responseXML && (NativeRequest === window.XMLHttpRequest))
         return responseXML;
+#endif
 
     return CFXMLParseString(this.responseText());
 };
@@ -298,26 +266,3 @@ function determineAndDispatchHTTPRequestEvents(/*CFHTTPRequest*/ aRequest)
         eventDispatcher.dispatchEvent({ type:readyStates[aRequest.readyState()], request:aRequest});
 }
 
-function FileRequest(/*CFURL*/ aURL, onsuccess, onfailure)
-{
-    var request = new CFHTTPRequest();
-
-    if (aURL.pathExtension() === "plist")
-        request.overrideMimeType("text/xml");
-
-    if (exports.asyncLoader)
-    {
-        request.onsuccess = Asynchronous(onsuccess);
-        request.onfailure = Asynchronous(onfailure);
-    }
-    else
-    {
-        request.onsuccess = onsuccess;
-        request.onfailure = onfailure;
-    }
-
-    request.open("GET", aURL.absoluteString(), exports.asyncLoader);
-    request.send("");
-}
-
-exports.asyncLoader = YES;

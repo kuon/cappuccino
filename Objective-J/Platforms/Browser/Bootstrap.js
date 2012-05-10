@@ -1,31 +1,3 @@
-/*
- * Bootstrap.js
- * Objective-J
- *
- * Created by Francisco Tolmasky.
- * Copyright 2010, 280 North, Inc.
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
- */
-
-
-#ifdef CONFIG_MAIN_BUNDLE_PATH
-var mainBundleURL = new CFURL("file:" + CONFIG_MAIN_BUNDLE_PATH);
-#elif defined(CONFIG_PLATFORM_NODEJS)
-var mainBundleURL = new CFURL("file:" + process.cwd());
-#elif defined(CONFIG_PLATFORM_BROWSER)
 // This is automatic when importing, but we'd like these important URLs to
 // be taken into consideration in the cache as well.
 enableCFURLCaching();
@@ -62,12 +34,8 @@ if (mainBundleURL === assumedResolvedURL)
 
 StaticResource.resourceAtURL(assumedResolvedURL, YES);
 
-exports.pageURL = pageURL;
+GLOBAL(CFApplicationURL) = pageURL;
 
-exports.bootstrap = function()
-{
-    resolveMainBundleURL();
-}
 
 function resolveMainBundleURL()
 {
@@ -137,9 +105,11 @@ afterDocumentLoad(function()
 });
 
 if (typeof OBJJ_AUTO_BOOTSTRAP === "undefined" || OBJJ_AUTO_BOOTSTRAP)
-    exports.bootstrap();
+    resolveMainBundleURL();
 
-#endif
+GLOBAL(objj_importFile) = Executable.fileImporterForURL(mainBundleURL);
+GLOBAL(objj_executeFile) = Executable.fileExecuterForURL(mainBundleURL);
+
 
 function makeAbsoluteURL(/*CFURL|String*/ aURL)
 {
@@ -149,8 +119,6 @@ function makeAbsoluteURL(/*CFURL|String*/ aURL)
     return new CFURL(aURL, mainBundleURL);
 }
 
-GLOBAL(objj_importFile) = Executable.fileImporterForURL(mainBundleURL);
-GLOBAL(objj_executeFile) = Executable.fileExecuterForURL(mainBundleURL);
 
 GLOBAL(objj_import) = function()
 {

@@ -128,7 +128,7 @@ Lexer.prototype.skip_whitespace = function(shouldMoveBackwards)
     return token;
 }
 
-exports.Lexer = Lexer;
+GLOBAL(objj_lexer) = Lexer;
 
 #define IS_NOT_EMPTY(buffer) buffer.atoms.length !== 0
 #define CONCAT(buffer, atom) buffer.atoms[buffer.atoms.length] = atom
@@ -143,14 +143,14 @@ StringBuffer.prototype.toString = function()
     return this.atoms.join("");
 }
 
-exports.preprocess = function(/*String*/ aString, /*CFURL*/ aURL, /*unsigned*/ flags)
+GLOBAL(objj_preprocess) = function(/*String*/ aString, /*CFURL*/ aURL, /*unsigned*/ flags)
 {
     return new Preprocessor(aString, aURL, flags).executable();
 }
 
-exports.eval = function(/*String*/ aString)
+GLOBAL(objj_eval) = function(/*String*/ aString)
 {
-    return eval(exports.preprocess(aString).code());
+    return eval(objj_preprocess(aString).code());
 }
 
 var Preprocessor = function(/*String*/ aString, /*CFURL|String*/ aURL, /*unsigned*/ flags)
@@ -211,7 +211,7 @@ Preprocessor.prototype.allIvarNamesForClassName = function(className)
     return names;
 }
 
-exports.Preprocessor = Preprocessor;
+GLOBAL(objj_preprocessor) = Preprocessor;
 
 Preprocessor.Flags = { };
 

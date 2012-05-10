@@ -63,13 +63,8 @@ DISPLAY_NAME(CFBundle);
 
 CFBundle.environments = function()
 {
-#ifdef CONFIG_ENVIRONMENTS
-    return CONFIG_ENVIRONMENTS;
-#elif defined(CONFIG_PLATFORM_NODEJS)
-    return ['NodeJS', 'ObjJ'];
-#elif defined(CONFIG_PLATFORM_BROWSER)
-    return ['Browser', 'ObjJ'];
-#endif
+    // set by gcc
+    return ENVIRONEMENTS;
 };
 
 DISPLAY_NAME(CFBundle.environments);
@@ -525,7 +520,7 @@ function CFBundleNotifySpriteSupportListeners()
 function CFBundleTestSpriteTypes(/*Array*/ spriteTypes)
 {
     // If we don't support Images, then clearly we don't support sprites.
-    if (!("Image" in global) || spriteTypes.length < 2)
+    if ((typeof(Image) == 'undefined') || spriteTypes.length < 2)
     {
         CFBundleSupportedSpriteType = CFBundleNoSpriteType;
         CFBundleNotifySpriteSupportListeners();

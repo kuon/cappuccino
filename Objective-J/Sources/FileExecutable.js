@@ -42,7 +42,7 @@ function FileExecutable(/*CFURL|String*/ aURL)
         executable = decompile(fileContents, aURL);
 
     else if (extension === "j" || !extension)
-        executable = exports.preprocess(fileContents, aURL, Preprocessor.Flags.IncludeDebugSymbols);
+        executable = objj_preprocess(fileContents, aURL, Preprocessor.Flags.IncludeDebugSymbols);
 
     else
         executable = new Executable(fileContents, [], aURL);
@@ -52,11 +52,10 @@ function FileExecutable(/*CFURL|String*/ aURL)
     this._hasExecuted = NO;
 }
 
-exports.FileExecutable = FileExecutable;
+GLOBAL(objj_fileExecutable) = FileExecutable;
 
 FileExecutable.prototype = new Executable();
 
-#ifdef CONFIG_PLATFORM_NODEJS
 FileExecutable.allFileExecutables = function()
 {
     var URLString,
@@ -68,7 +67,6 @@ FileExecutable.allFileExecutables = function()
 
     return fileExecutables;
 }
-#endif
 
 FileExecutable.prototype.execute = function(/*BOOL*/ shouldForce)
 {

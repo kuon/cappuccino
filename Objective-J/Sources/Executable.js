@@ -51,7 +51,7 @@ function Executable(/*String*/ aCode, /*Array*/ fileDependencies, /*CFURL|String
     this.setCode(aCode);
 }
 
-exports.Executable = Executable;
+GLOBAL(objj_executable) = Executable;
 
 Executable.prototype.path = function()
 {
@@ -67,13 +67,8 @@ DISPLAY_NAME(Executable.prototype.URL);
 
 Executable.prototype.functionParameters = function()
 {
-    var functionParameters = ["global", "objj_executeFile", "objj_importFile"];
+    var functionParameters = ["objj_executeFile", "objj_importFile"];
 
-//exportedNames().concat("objj_executeFile", "objj_importFile");
-
-#ifdef CONFIG_PLATFORM_NODEJS
-    functionParameters = functionParameters.concat("require", "exports", "module", "system", "print", "global");
-#endif
 
     return functionParameters;
 };
@@ -82,37 +77,12 @@ DISPLAY_NAME(Executable.prototype.functionParameters);
 
 Executable.prototype.functionArguments = function()
 {
-    var functionArguments = [global, this.fileExecuter(), this.fileImporter()];
-
-#ifdef CONFIG_PLATFORM_NODEJS
-    functionArguments = functionArguments.concat(Executable.commonJSArguments());
-#endif
+    var functionArguments = [this.fileExecuter(), this.fileImporter()];
 
     return functionArguments;
 };
 
 DISPLAY_NAME(Executable.prototype.functionArguments);
-
-#ifdef CONFIG_PLATFORM_NODEJS
-Executable.setCommonJSParameters = function()
-{
-    this._commonJSParameters = Array.prototype.slice.call(arguments);
-};
-
-Executable.commonJSParameters = function()
-{
-    return this._commonJSParameters || [];
-};
-
-Executable.setCommonJSArguments = function()
-{
-    this._commonJSArguments = Array.prototype.slice.call(arguments);
-};
-
-Executable.commonJSArguments = function()
-{
-    return this._commonJSArguments || [];
-};
 
 Executable.prototype.toMarkedString = function()
 {
@@ -128,11 +98,10 @@ Executable.prototype.toMarkedString = function()
 
     return markedString + MARKER_TEXT + ";" + code.length + ";" + code;
 };
-#endif
 
 Executable.prototype.execute = function()
 {
-#if EXECUTION_LOGGING
+#ifdef EXECUTION_LOGGING
     CPLog("EXECUTION: " + this.URL());
 #endif
     var oldContextBundle = CONTEXT_BUNDLE;
@@ -140,7 +109,7 @@ Executable.prototype.execute = function()
     // FIXME: Should we have stored this?
     CONTEXT_BUNDLE = CFBundle.bundleContainingURL(this.URL());
 
-    var result = this._function.apply(global, this.functionArguments());
+    var result = this._function.apply(this.functionArguments());
 
     CONTEXT_BUNDLE = oldContextBundle;
 

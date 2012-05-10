@@ -78,7 +78,7 @@ GLOBAL(objj_class) = function(displayName)
     this.method_store   = function() { };
     this.method_dtable  = this.method_store.prototype;
 
-#if DEBUG
+#ifdef DEBUG
     // Naming the allocator allows the WebKit heap snapshot tool to display object class names correctly
     // HACK: displayName property is not respected so we must eval a function to name it
     eval("this.allocator = function " + (displayName || "OBJJ_OBJECT").replace(/\W/g, "_") + "() { }");
@@ -476,7 +476,7 @@ var CONTEXT_BUNDLE = nil;
 
 GLOBAL(objj_registerClassPair) = function(/*Class*/ aClass)
 {
-    global[aClass.name] = aClass;
+    GLOBAL(aClass.name) = aClass;
     REGISTERED_CLASSES[aClass.name] = aClass;
 
     addClassToBundle(aClass, CONTEXT_BUNDLE);

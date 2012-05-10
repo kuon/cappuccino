@@ -1,16 +1,4 @@
-
-#ifdef CONFIG_XML_PARSER_FUNCTION
-function CFXMLParseString(/*String*/ aString)
-{
-    CONFIG_XML_PARSER_FUNCTION(aString);
-}
-#elif defined(CONFIG_PLATFORM_NODEJS)
-function CFXMLParseString(/*String*/ aString)
-{
-// FIXME: write a nodejs parser solution
-    return NULL;
-}
-#elif defined(CONFIG_PLATFORM_BROWSER)
+#ifdef CONFIG_XML_USE_DOM
 function CFXMLParseString(/*String*/ aString)
 {
     if (window.DOMParser)
@@ -32,5 +20,15 @@ function CFXMLParseString(/*String*/ aString)
     }
 
     return NULL;
+}
+#elif defined(CONFIG_XML_USE_PARSE_XML)
+function CFXMLParseString(/*String*/ aString)
+{
+    return parseXML(aString);
+}
+#else
+// Pure JS xml parser fallback
+function CFXMLParseString(/*String*/ aString)
+{
 }
 #endif

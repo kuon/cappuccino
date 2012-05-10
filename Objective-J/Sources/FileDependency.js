@@ -26,7 +26,7 @@ function FileDependency(/*CFURL*/ aURL, /*BOOL*/ isLocal)
     this._isLocal = isLocal;
 }
 
-exports.FileDependency = FileDependency;
+GLOBAL(objj_fileDependency) = FileDependency;
 
 FileDependency.prototype.URL = function()
 {
