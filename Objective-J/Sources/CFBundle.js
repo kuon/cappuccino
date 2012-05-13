@@ -95,7 +95,7 @@ DISPLAY_NAME(CFBundle.bundleContainingURL);
 
 CFBundle.mainBundle = function()
 {
-    return new CFBundle(mainBundleURL);
+    return new CFBundle(OBJJ_MAIN_BUNDLE_URL);
 };
 
 DISPLAY_NAME(CFBundle.mainBundle);
@@ -702,3 +702,11 @@ CFBundle.prototype.pathForResource = function(aResource)
 {
     return this.resourceURL(aResource).absoluteString();
 };
+
+function makeAbsoluteURL(/*CFURL|String*/ aURL)
+{
+    if (aURL instanceof CFURL && aURL.scheme())
+        return aURL;
+
+    return new CFURL(aURL, OBJJ_MAIN_BUNDLE_URL);
+}
