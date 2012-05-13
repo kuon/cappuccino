@@ -271,14 +271,12 @@ var CPRunLoopLastNativeRunLoop = 0;
     aTimer._lastNativeRunLoopsForModes[aMode] = CPRunLoopLastNativeRunLoop;
 
 
-    // FIXME: Hack for not doing this in CommonJS
-    if ([CFBundle.environments() indexOfObject:("Browser")] !== CPNotFound)
+    if (!_runLoopInsuranceTimer)
     {
-        if (!_runLoopInsuranceTimer)
-            _runLoopInsuranceTimer = window.setNativeTimeout(function()
-            {
-                [self limitDateForMode:CPDefaultRunLoopMode];
-            }, 0);
+        _runLoopInsuranceTimer = objj_setTimeout(function()
+        {
+            [self limitDateForMode:CPDefaultRunLoopMode];
+        }, 0);
     }
 }
 
@@ -293,14 +291,10 @@ var CPRunLoopLastNativeRunLoop = 0;
 
     _runLoopLock = YES;
 
-    // FIXME: Hack for not doing this in CommonJS
-    if ([CFBundle.environments() indexOfObject:("Browser")] !== CPNotFound)
+    if (_runLoopInsuranceTimer)
     {
-        if (_runLoopInsuranceTimer)
-        {
-            window.clearNativeTimeout(_runLoopInsuranceTimer);
-            _runLoopInsuranceTimer = nil;
-        }
+        objj_clearTimeout(_runLoopInsuranceTimer);
+        _runLoopInsuranceTimer = nil;
     }
 
     var now = _effectiveDate ? [_effectiveDate laterDate:[CPDate date]] : [CPDate date],
@@ -315,7 +309,7 @@ var CPRunLoopLastNativeRunLoop = 0;
         // Cancel existing window.setTimeout
         if (_nativeTimersForModes[aMode] !== nil)
         {
-            window.clearNativeTimeout(_nativeTimersForModes[aMode]);
+            objj_clearTimeout(_nativeTimersForModes[aMode]);
 
             _nativeTimersForModes[aMode] = nil;
         }
@@ -375,7 +369,7 @@ var CPRunLoopLastNativeRunLoop = 0;
 
         //initiate a new window.setTimeout if there are any timers
         if (_nextTimerFireDatesForModes[aMode] !== nil)
-            _nativeTimersForModes[aMode] = window.setNativeTimeout(function() { _effectiveDate = nextFireDate; _nativeTimersForModes[aMode] = nil; ++CPRunLoopLastNativeRunLoop; [self limitDateForMode:aMode]; _effectiveDate = nil; }, MAX(0, [nextFireDate timeIntervalSinceNow] * 1000));
+            _nativeTimersForModes[aMode] = objj_setTimeout(function() { _effectiveDate = nextFireDate; _nativeTimersForModes[aMode] = nil; ++CPRunLoopLastNativeRunLoop; [self limitDateForMode:aMode]; _effectiveDate = nil; }, MAX(0, [nextFireDate timeIntervalSinceNow] * 1000));
     }
 
     // Run loop performers

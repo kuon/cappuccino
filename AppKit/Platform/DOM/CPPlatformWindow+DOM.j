@@ -808,7 +808,7 @@ var ModifierKeyCodes = [
                             if (isNativePasteEvent)
                             {
                                 _pasteboardKeyDownEvent = event;
-                                window.setNativeTimeout(function () { [self _checkPasteboardElement] }, 0);
+                                objj_setTimeout(function () { [self _checkPasteboardElement] }, 0);
                             }
 
                             break;
@@ -934,7 +934,7 @@ var ModifierKeyCodes = [
         _DOMPasteboardElement.focus();
         _DOMPasteboardElement.select();
 
-        window.setNativeTimeout(function() { [self _clearPasteboardElement]; }, 0);
+        objj_setTimeout(function() { [self _clearPasteboardElement]; }, 0);
     }
 }
 
