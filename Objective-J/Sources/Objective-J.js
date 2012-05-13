@@ -54,3 +54,4 @@
 #ifdef DEBUG
 #include "Debug.js"
 #endif
+#include "Bootstrap.js"
