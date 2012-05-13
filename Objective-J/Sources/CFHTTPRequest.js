@@ -56,7 +56,8 @@ if (!NativeRequest)
     NativeRequest = window.XMLHttpRequest;
 
 #elif defined(CONFIG_HTTP_USE_NODEJS)
-var NativeRequest = require('xmlhttprequest').XMLHttpRequest;
+// TODO write nodejs nativerequest
+var NativeRequest = null;
 
 #elif defined(CONFIG_HTTP_CUSTOM_CLASS)
 var NativeRequest = CONFIG_HTTP_CUSTOM_CLASS;
@@ -138,26 +139,9 @@ CFHTTPRequest.prototype.success = function()
     return status === 0 && this.responseText() && this.responseText().length;
 };
 
-CFHTTPRequest.prototype.responseXML = function()
-{
-    var responseXML = this._nativeRequest.responseXML;
-
-#ifdef CONFIG_HTTP_USE_XMLHTTPREQUEST
-    if (responseXML && (NativeRequest === window.XMLHttpRequest))
-        return responseXML;
-#endif
-
-    return CFXMLParseString(this.responseText());
-};
-
 CFHTTPRequest.prototype.responsePropertyList = function()
 {
-    var responseText = this.responseText();
-
-    if (CFPropertyList.sniffedFormatOfString(responseText) === CFPropertyList.FormatXML_v1_0)
-        return CFPropertyList.propertyListFromXML(this.responseXML());
-
-    return CFPropertyList.propertyListFromString(responseText);
+    return CFPropertyList.propertyListFromString(this.responseText);
 };
 
 CFHTTPRequest.prototype.responseText = function()
@@ -249,8 +233,7 @@ function determineAndDispatchHTTPRequestEvents(/*CFHTTPRequest*/ aRequest)
 
     eventDispatcher.dispatchEvent({ type:"readystatechange", request:aRequest});
 
-    var nativeRequest = aRequest._nativeRequest,
-        readyStates = ["uninitialized", "loading", "loaded", "interactive", "complete"];
+    var readyStates = ["uninitialized", "loading", "loaded", "interactive", "complete"];
 
     if (readyStates[aRequest.readyState()] === "complete")
     {
