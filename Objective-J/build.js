@@ -17,11 +17,11 @@ try {
     fs.mkdirSync('Build')
 } catch(err) {}
 
-var platforms = fs.readdirSync('Platforms');
+var environments = fs.readdirSync('Environments');
 
-for (var i = 0; i < platforms.length; i++)
+for (var i = 0; i < environments.length; i++)
 {
-    var p = platforms[i];
-    var flags = '-DDEBUG=1 -ISources -IPlatforms/' + p;
-    preprocess('Platforms/' + p + '/Objective-J.' + p + '.js', 'Build/Objective-J.' + p + '.js', flags);
+    var p = environments[i];
+    var flags = '-DDEBUG=1 -ISources -IEnvironments/' + p;
+    preprocess('Environments/' + p + '/Objective-J.' + p + '.js', 'Build/Objective-J.' + p + '.js', flags);
 }
