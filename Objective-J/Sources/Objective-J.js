@@ -26,7 +26,8 @@
 #define DISPLAY_NAME(name)
 #endif
 
-#define GLOBAL(name) name
+#define GLOBAL(name) CONFIG_GLOBAL_OBJECT[#name]
+#define DYNAMIC_GLOBAL(name) CONFIG_GLOBAL_OBJECT[name]
 
 #include "DebugOptions.js"
 #include "json2.js"

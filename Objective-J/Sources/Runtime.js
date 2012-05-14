@@ -476,7 +476,7 @@ var CONTEXT_BUNDLE = nil;
 
 GLOBAL(objj_registerClassPair) = function(/*Class*/ aClass)
 {
-    GLOBAL(aClass.name) = aClass;
+    DYNAMIC_GLOBAL(aClass.name) = aClass;
     REGISTERED_CLASSES[aClass.name] = aClass;
 
     addClassToBundle(aClass, CONTEXT_BUNDLE);
