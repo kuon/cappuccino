@@ -5,7 +5,7 @@
 
 - (void)testRelativeURLs
 {
-    var URLStrings = 
+    var URLStrings =
     {
         "g:h"           : "g:h",
         "g"             : "http://a/b/c/g",
