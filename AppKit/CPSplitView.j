@@ -20,7 +20,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#include "../Foundation/Foundation.h"
 
 @import "CPButtonBar.j"
 @import "CPImage.j"
@@ -666,7 +665,7 @@ var CPSplitViewHorizontalImage = nil,
         // Silently ignore bad positions which could result from odd delegate responses. We don't want these
         // bad results to go into the system and cause havoc with frame sizes as the split view tries to resize
         // its subviews.
-        if (_IS_NUMERIC(proposedPosition))
+        if (IS_NUMERIC(proposedPosition))
             position = proposedPosition;
     }
 
@@ -679,7 +678,7 @@ var CPSplitViewHorizontalImage = nil,
     {
         var proposedActualMin = [_delegate splitView:self constrainMinCoordinate:proposedMin ofSubviewAt:dividerIndex];
 
-        if (_IS_NUMERIC(proposedActualMin))
+        if (IS_NUMERIC(proposedActualMin))
             actualMin = proposedActualMin;
     }
 
@@ -687,7 +686,7 @@ var CPSplitViewHorizontalImage = nil,
     {
         var proposedActualMax = [_delegate splitView:self constrainMaxCoordinate:proposedMax ofSubviewAt:dividerIndex];
 
-        if (_IS_NUMERIC(proposedActualMax))
+        if (IS_NUMERIC(proposedActualMax))
             actualMax = proposedActualMax;
     }
 
