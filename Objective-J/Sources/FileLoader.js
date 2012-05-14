@@ -43,9 +43,6 @@ function FileRequest(/*CFURL*/ aURL, onsuccess, onfailure)
 {
     var request = new CFHTTPRequest();
 
-    if (aURL.pathExtension() === "plist")
-        request.overrideMimeType("text/xml");
-
     if (OBJJ_ASYNCLOADER)
     {
         request.onsuccess = Asynchronous(onsuccess);
