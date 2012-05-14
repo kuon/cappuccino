@@ -3,3 +3,4 @@
 var o = [CPObject new];
 
 CPLog(o);
+
