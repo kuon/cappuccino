@@ -1,6 +1,7 @@
-@import <Foundation/Foundation.j>
+//@import <Foundation/Foundation.j>
 
-var o = [CPObject new];
+var o = {};//[CPObject new];
 
 CPLog(o);
+console.log('rpou');
 

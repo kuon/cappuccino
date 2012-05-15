@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg id="root" onload="afterload()" dur="indefinite" xmlns="http://www.w3.org/2000/svg" xmlns:spx="http://www.spinetix.com/namespace/1.0/spx" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <script xlink:href="Objective-J.HMP.js" type="application/ecmascript"/>
+  <script type="application/ecmascript">
+    <![CDATA[
+    function afterload() {
+alert('toto');
+CPLogRegister(CPLogDefault);
+CPLog('boum');
+
+objj_executeFile('main.j', YES);
+    }
+        ]]>
+  </script>
+</svg>
+
+
