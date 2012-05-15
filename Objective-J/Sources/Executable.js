@@ -69,7 +69,6 @@ Executable.prototype.functionParameters = function()
 {
     var functionParameters = ["objj_executeFile", "objj_importFile"];
 
-
     return functionParameters;
 };
 
@@ -109,7 +108,7 @@ Executable.prototype.execute = function()
     // FIXME: Should we have stored this?
     CONTEXT_BUNDLE = CFBundle.bundleContainingURL(this.URL());
 
-    var result = this._function.apply(this.functionArguments());
+    var result = this._function.apply(CONFIG_GLOBAL_OBJECT, this.functionArguments());
 
     CONTEXT_BUNDLE = oldContextBundle;
 

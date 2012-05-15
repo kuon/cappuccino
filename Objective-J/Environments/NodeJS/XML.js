@@ -2,8 +2,8 @@ global._parseXMLResolver = function()
 {
     return function(aString)
     {
-        console.log('parse xml');
-        console.log(aString);
-        return {};
+        var DOMParser = require('xmldom').DOMParser;
+        var doc = new DOMParser().parseFromString(aString,'text/xml');
+        return doc.documentElement;
     }
 }

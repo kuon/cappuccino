@@ -1,7 +1,8 @@
-//@import <Foundation/Foundation.j>
+@import <Foundation/Foundation.j>
 
-var o = {};//[CPObject new];
+var o = {name:'empty object'};//[CPObject new];
 
+CPLog('In main.j');
 CPLog(o);
-console.log('rpou');
+
 
