@@ -27,4 +27,4 @@ Temporary macros to substitute for @ref and @deref functionality in a future ver
 // @ref
 #define AT_REF(x) function(__input) { if (arguments.length) return x = __input; return x; }
 // @deref (kind of)
-#define AT_DEREF(x, ...) x(##__VA_ARGS__)
+#define AT_DEREF(x, ...) x(__VA_ARGS__)
