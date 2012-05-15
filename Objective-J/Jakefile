@@ -1,0 +1,35 @@
+require('../jakelib/utils.js');
+
+var FILE = require('fs');
+var sharedSources = new jake.FileList();
+sharedSources.include('Sources/*.js');
+sharedSources = sharedSources.toArray();
+
+var environments = FILE.readdirSync('Environments');
+
+desc('Create build directory');
+directory('Build');
+
+var environmentTargets = [];
+
+environments.forEach(function(env) {
+    var source = 'Environments/' + env + '/Objective-J.' + env + '.js',
+        target = 'Build/Objective-J.' + env + '.js',
+        envSources = new jake.FileList(),
+        flags = ['-ISources',  '-IEnvironments/' + env];
+
+    envSources.include('Environments/' + env + '/*');
+    envSources = envSources.toArray();
+
+    environmentTargets.push(target);
+
+    desc('Preprocess Source for ' + env);
+    file(target, ['Build'].concat(sharedSources).concat(envSources), function () {
+        jake.cpp(source, target, flags);
+    }, {async: true});
+});
+
+
+task('default', environmentTargets, function() {
+    console.log('# Objective-J built');
+});
