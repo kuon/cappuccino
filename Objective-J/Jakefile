@@ -12,6 +12,7 @@ directory('Build');
 
 var environmentTargets = [];
 
+// Create one task per environment
 environments.forEach(function(env) {
     var source = 'Environments/' + env + '/Objective-J.' + env + '.js',
         target = 'Build/Objective-J.' + env + '.js',
@@ -23,9 +24,9 @@ environments.forEach(function(env) {
 
     environmentTargets.push(target);
 
-    desc('Preprocess Source for ' + env);
+    desc('Preprocess ' + env + 'environment');
     file(target, ['Build'].concat(sharedSources).concat(envSources), function () {
-        jake.cpp(source, target, flags);
+        cpp(source, target, flags);
     }, {async: true});
 });
 
