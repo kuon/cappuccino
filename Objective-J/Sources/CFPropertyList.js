@@ -288,7 +288,6 @@ var XML_XML                 = "xml",
 #define FIRST_CHILD(anXMLNode)      (anXMLNode.firstChild)
 #define NEXT_SIBLING(anXMLNode)     (anXMLNode.nextSibling)
 #define PARENT_NODE(anXMLNode)      (anXMLNode.parentNode)
-#define DOCUMENT_ELEMENT(aDocument) (aDocument.documentElement)
 
 #define HAS_ATTRIBUTE_VALUE(anXMLNode, anAttributeName, aValue) (anXMLNode.getAttribute(anAttributeName) === aValue)
 

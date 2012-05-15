@@ -1,5 +1,6 @@
 require('./jakelib/utils.js');
 
-jake.subjake('Objective-J');
+subjake('Objective-J');
+subjake('Foundation', ['Objective-J']);
 
-task('default', ['Objective-J']);
+task('default', ['Foundation']);

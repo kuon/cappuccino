@@ -64,7 +64,7 @@ DISPLAY_NAME(CFBundle);
 CFBundle.environments = function()
 {
     // set by gcc
-    return ENVIRONEMENTS;
+    return CONFIG_ENVIRONEMENTS;
 };
 
 DISPLAY_NAME(CFBundle.environments);
@@ -272,6 +272,7 @@ CFBundle.prototype.load = function(/*BOOL*/ shouldExecute)
             var infoDictionary = anEvent.request.responsePropertyList();
 
             self._isValid = !!infoDictionary || CFBundle.mainBundle() === self;
+
 
             if (infoDictionary)
                 self._infoDictionary = infoDictionary;

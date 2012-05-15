@@ -307,6 +307,7 @@ Executable.fileExecuterForURL = function(/*CFURL|String*/ aURL)
     {
         cachedFileExecuter = function(/*CFURL*/ aURL, /*BOOL*/ isQuoted, /*BOOL*/ shouldForce)
         {
+
             Executable.fileExecutableSearcherForURL(referenceURL)(aURL, isQuoted,
             function(/*FileExecutable*/ aFileExecutable)
             {
