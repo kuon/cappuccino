@@ -1,4 +1,4 @@
-global._HTTPRequestResolver = function() 
+global._HTTPRequestResolver = function()
 {
     var HTTP = require('http'),
         HTTPS = require('https'),
@@ -55,21 +55,21 @@ global._HTTPRequestResolver = function()
             host, path;
 
         if (this._sent) throw "Request already sent";
-        switch (this._URL.protocol) 
+        switch (this._URL.protocol)
         {
-        case 'https:':
-            ssl = true;
-        case 'http:':
-            host = this._URL.hostname;
-            if (!this._isAsynchronous)
-                throw "Synchronous HTTP requests are not supported in NodeJS";
-            break;
-        case 'file:':
-            path = this._URL.pathname;
-            file = true;
-            break
-        default:
-            throw "Protocol not supported.";
+            case 'https:':
+                ssl = true;
+            case 'http:':
+                host = this._URL.hostname;
+                if (!this._isAsynchronous)
+                    throw "Synchronous HTTP requests are not supported in NodeJS";
+                break;
+            case 'file:':
+                path = this._URL.pathname;
+                file = true;
+                break
+            default:
+                throw "Protocol not supported.";
         }
 
         var self = this;
@@ -90,7 +90,7 @@ global._HTTPRequestResolver = function()
             var FS = require('fs');
             if (self._isAsynchronous)
             {
-                self._fd = FS.readFile(path, 'UTF-8', function(err, data) 
+                self._fd = FS.readFile(path, 'UTF-8', function(err, data)
                 {
                     if (self._sent)
                         self.setState(self.LOADING);
@@ -107,7 +107,7 @@ global._HTTPRequestResolver = function()
         }
         else
         {
-            var options = 
+            var options =
             {
                 host: host,
                 port: self._URL.port,
@@ -118,7 +118,7 @@ global._HTTPRequestResolver = function()
             if (self._user && self._password)
                 options['auth'] = self._user + ':' + self._password;
 
-            self._request = (ssl ? HTTPS : HTTP).request(options, function(resp) 
+            self._request = (ssl ? HTTPS : HTTP).request(options, function(resp)
             {
                 self._response = resp;
                 self._response.setEncoding("utf8");
@@ -126,14 +126,15 @@ global._HTTPRequestResolver = function()
                 self.setState(self.HEADERS_RECEIVED);
                 self.status = response.statusCode;
 
-                self._response.on('data', function(chunk) {
+                self._response.on('data', function(chunk) 
+                {
                     if (chunk)
                         self.responseText += chunk;
                     if (self._sent)
                         self.setState(self.LOADING);
                 });
 
-                self._response.on('end', function() 
+                self._response.on('end', function()
                 {
                     if (self._sent)
                     {
@@ -142,11 +143,11 @@ global._HTTPRequestResolver = function()
                     }
                 });
 
-                self._response.on('error', function(error) 
+                self._response.on('error', function(error)
                 {
                     self.handleError(error);
                 });
-            }).on('error', function(error) 
+            }).on('error', function(error)
             {
                 self.handleError(error);
             });
@@ -181,7 +182,8 @@ global._HTTPRequestResolver = function()
 
         if (this.readyState !== this.UNSENT
             && (this.readyState !== this.OPENED || this._sent)
-            && this.readyState !== this.DONE) {
+            && this.readyState !== this.DONE) 
+        {
           this._sent = false;
           this.setState(this.DONE);
         }
