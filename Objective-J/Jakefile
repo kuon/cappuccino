@@ -16,7 +16,7 @@ directory(BUILD_DIR);
 // Create one task per environment
 environments.forEach(function(env)
 {
-    if (env.search(/^\./) != -1)
+    if (env.search(/^\./) != -1) // Avoid .DS_Store or other invisible files
         return;
 
     var source = 'Environments/' + env + '/Objective-J.' + env + '.js',
@@ -24,10 +24,10 @@ environments.forEach(function(env)
         envSources = new jake.FileList(),
         flags = ['-ISources',  '-IEnvironments/' + env];
 
+    environmentTargets.push(target);
+
     envSources.include('Environments/' + env + '/*');
     envSources = envSources.toArray();
-
-    environmentTargets.push(target);
 
     desc('Preprocess ' + env + 'environment');
     file(target, [BUILD_DIR].concat(sharedSources).concat(envSources), function ()
@@ -37,6 +37,7 @@ environments.forEach(function(env)
 });
 
 
+desc('Default task');
 task('default', environmentTargets, function()
 {
     console.log('# Objective-J built');
