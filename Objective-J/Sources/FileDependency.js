@@ -31,12 +31,12 @@ GLOBAL(objj_fileDependency) = FileDependency;
 FileDependency.prototype.URL = function()
 {
     return this._URL;
-}
+};
 
 FileDependency.prototype.isLocal = function()
 {
     return this._isLocal;
-}
+};
 
 FileDependency.prototype.toMarkedString = function()
 {
@@ -44,9 +44,9 @@ FileDependency.prototype.toMarkedString = function()
 
     return  (this.isLocal() ? MARKER_IMPORT_LOCAL : MARKER_IMPORT_STD) + ";" +
             URLString.length + ";" + URLString;
-}
+};
 
 FileDependency.prototype.toString = function()
 {
     return (this.isLocal() ? "LOCAL: " : "STD: ") + this.URL();
-}
+};
