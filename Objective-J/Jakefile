@@ -7,7 +7,7 @@ var FILE = require('fs'),
     BUILD_DIR = '../Build/Objective-J';
 
 
-sharedSources.include('Sources/*.js');
+sharedSources.include('Source/*.js');
 sharedSources = sharedSources.toArray();
 
 desc('Objective-J build directory');
@@ -22,7 +22,7 @@ environments.forEach(function(env)
     var source = 'Environments/' + env + '/Objective-J.' + env + '.js',
         target = BUILD_DIR + '/Objective-J.' + env + '.js',
         envSources = new jake.FileList(),
-        flags = ['-ISources',  '-IEnvironments/' + env];
+        flags = ['-ISource',  '-IEnvironments/' + env];
 
     environmentTargets.push(target);
 
