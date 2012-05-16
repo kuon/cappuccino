@@ -9,7 +9,7 @@ alert('toto');
 CPLogRegister(CPLogDefault);
 CPLog('boum');
 
-objj_executeFile('main.j', YES);
+objj_importFile('main.j', YES);
     }
         ]]>
   </script>
