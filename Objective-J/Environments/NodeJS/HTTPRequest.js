@@ -52,7 +52,8 @@ global._HTTPRequestResolver = function()
     {
         var ssl = false,
             file = false,
-            host, path;
+            host,
+            path;
 
         if (this._sent) throw "Request already sent";
         switch (this._URL.protocol)
@@ -126,7 +127,7 @@ global._HTTPRequestResolver = function()
                 self.setState(self.HEADERS_RECEIVED);
                 self.status = response.statusCode;
 
-                self._response.on('data', function(chunk) 
+                self._response.on('data', function(chunk)
                 {
                     if (chunk)
                         self.responseText += chunk;
@@ -182,7 +183,7 @@ global._HTTPRequestResolver = function()
 
         if (this.readyState !== this.UNSENT
             && (this.readyState !== this.OPENED || this._sent)
-            && this.readyState !== this.DONE) 
+            && this.readyState !== this.DONE)
         {
           this._sent = false;
           this.setState(this.DONE);
