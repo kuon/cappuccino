@@ -1,13 +1,9 @@
-require('../../Objective-J/Build/Objective-J.NodeJS.js');
+require('../../Build/Objective-J/Objective-J.NodeJS.js');
 
 CPLogRegister(CPLogDefault);
 
-OBJJ_INCLUDE_PATHS = ['../../Foundation/Build'];
-
-//CPLog(OBJJ_MAIN_BUNDLE_URL);
+OBJJ_INCLUDE_PATHS = ['../../Build'];
 
 objj_importFile('main.j', YES);
-//console.log(f);
-//objj_executeFile('Foundation.j', NO);
 
 

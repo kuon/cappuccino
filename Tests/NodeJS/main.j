@@ -7,4 +7,8 @@ var test = [CPArray new];
 CPLog('In main.j');
 CPLog([test description]);
 
+[CPTimer scheduledTimerWithTimeInterval:1 callback:function() {
+    CPLog(@"Timer");
+}
+repeats:YES];
 
