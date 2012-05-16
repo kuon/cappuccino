@@ -1,4 +1,5 @@
-global._HTTPRequestResolver = function() {
+global._HTTPRequestResolver = function() 
+{
     var HTTP = require('http'),
         HTTPS = require('https'),
         URL = require("url"),
@@ -54,7 +55,8 @@ global._HTTPRequestResolver = function() {
             host, path;
 
         if (this._sent) throw "Request already sent";
-        switch (this._URL.protocol) {
+        switch (this._URL.protocol) 
+        {
         case 'https:':
             ssl = true;
         case 'http:':
@@ -88,7 +90,8 @@ global._HTTPRequestResolver = function() {
             var FS = require('fs');
             if (self._isAsynchronous)
             {
-                self._fd = FS.readFile(path, 'UTF-8', function(err, data) {
+                self._fd = FS.readFile(path, 'UTF-8', function(err, data) 
+                {
                     if (self._sent)
                         self.setState(self.LOADING);
                     self.responseText = data;
@@ -104,7 +107,8 @@ global._HTTPRequestResolver = function() {
         }
         else
         {
-            var options = {
+            var options = 
+            {
                 host: host,
                 port: self._URL.port,
                 path: self._URL.path,
@@ -114,7 +118,8 @@ global._HTTPRequestResolver = function() {
             if (self._user && self._password)
                 options['auth'] = self._user + ':' + self._password;
 
-            self._request = (ssl ? HTTPS : HTTP).request(options, function(resp) {
+            self._request = (ssl ? HTTPS : HTTP).request(options, function(resp) 
+            {
                 self._response = resp;
                 self._response.setEncoding("utf8");
 
@@ -128,7 +133,8 @@ global._HTTPRequestResolver = function() {
                         self.setState(self.LOADING);
                 });
 
-                self._response.on('end', function() {
+                self._response.on('end', function() 
+                {
                     if (self._sent)
                     {
                         setState(self.DONE);
@@ -136,10 +142,12 @@ global._HTTPRequestResolver = function() {
                     }
                 });
 
-                self._response.on('error', function(error) {
+                self._response.on('error', function(error) 
+                {
                     self.handleError(error);
                 });
-            }).on('error', function(error) {
+            }).on('error', function(error) 
+            {
                 self.handleError(error);
             });
 
