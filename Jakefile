@@ -1,6 +1,9 @@
 require('./jakelib/utils.js');
 
-subjake('Objective-J');
+desc('Create build directory');
+directory('Build');
+
+subjake('Objective-J', ['Build']);
 subjake('Foundation', ['Objective-J']);
 
 task('default', ['Foundation']);

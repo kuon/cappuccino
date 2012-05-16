@@ -7,15 +7,15 @@ sharedSources = sharedSources.toArray();
 
 var environments = FILE.readdirSync('Environments');
 
-desc('Create build directory');
-directory('Build');
-
 var environmentTargets = [];
+
+var BUILD_DIR = '../Build/Objective-J';
+directory(BUILD_DIR);
 
 // Create one task per environment
 environments.forEach(function(env) {
     var source = 'Environments/' + env + '/Objective-J.' + env + '.js',
-        target = 'Build/Objective-J.' + env + '.js',
+        target = BUILD_DIR + '/Objective-J.' + env + '.js',
         envSources = new jake.FileList(),
         flags = ['-ISources',  '-IEnvironments/' + env];
 
@@ -25,7 +25,7 @@ environments.forEach(function(env) {
     environmentTargets.push(target);
 
     desc('Preprocess ' + env + 'environment');
-    file(target, ['Build'].concat(sharedSources).concat(envSources), function () {
+    file(target, [BUILD_DIR].concat(sharedSources).concat(envSources), function () {
         cpp(source, target, flags);
     }, {async: true});
 });

@@ -7,17 +7,18 @@ sources.include('Sources/CPPredicate/*.j');
 sources.include('Sources/CPSet/*.j');
 sources = sources.toArray();
 
+var BUILD_DIR = '../Build/Foundation';
 desc('Create intermediate build directory');
-directory('Build/Foundation');
+directory(BUILD_DIR);
 
 var cppTargets = [];
 // Create one preprocessing task per source file
 sources.forEach(function(source) {
     var flags = ['-ISources'],
-        target = 'Build/Foundation/' + source.replace(/^.*\//, '');
+        target = BUILD_DIR + '/' + source.replace(/^.*\//, '');
     cppTargets.push(target);
     desc('Preprocess source file:' + source);
-    file(target, ['Build/Foundation', source], function () {
+    file(target, [BUILD_DIR, source], function () {
         cpp(source, target, flags);
     }, {async: true});
 });
