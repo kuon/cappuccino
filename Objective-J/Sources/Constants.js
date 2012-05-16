@@ -65,4 +65,4 @@ GLOBAL(PI_2)    = Math.PI / 2.0;
 
 GLOBAL(SQRT1_2) = Math.SQRT1_2;
 GLOBAL(SQRT2)   = Math.SQRT2;
-GLOBAL(IS_NUMERIC) = function(n) { return (!isNaN(parseFloat(n)) && isFinite(n)); }
+GLOBAL(IS_NUMERIC) = function(n) { return (!isNaN(parseFloat(n)) && isFinite(n)); };

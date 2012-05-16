@@ -66,7 +66,7 @@ FileExecutable.allFileExecutables = function()
             fileExecutables.push(FileExecutablesForURLStrings[URLString]);
 
     return fileExecutables;
-}
+};
 
 FileExecutable.prototype.execute = function(/*BOOL*/ shouldForce)
 {
@@ -76,14 +76,14 @@ FileExecutable.prototype.execute = function(/*BOOL*/ shouldForce)
     this._hasExecuted = YES;
 
     Executable.prototype.execute.call(this);
-}
+};
 
 DISPLAY_NAME(FileExecutable.prototype.execute);
 
 FileExecutable.prototype.hasExecuted = function()
 {
     return this._hasExecuted;
-}
+};
 
 DISPLAY_NAME(FileExecutable.prototype.hasExecuted);
 
@@ -125,10 +125,10 @@ FileExecutable._cacheFunction = function(/*CFURL|String*/ aURL, /*Function*/ fn)
 {
     aURL = typeof aURL === "string" ? aURL : aURL.absoluteString();
     FunctionCache[aURL] = fn;
-}
+};
 
 FileExecutable._lookupCachedFunction = function(/*CFURL|String*/ aURL)
 {
     aURL = typeof aURL === "string" ? aURL : aURL.absoluteString();
     return FunctionCache[aURL];
-}
+};

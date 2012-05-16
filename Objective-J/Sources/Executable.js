@@ -148,21 +148,21 @@ Executable.prototype.setCode = function(code)
 #if DEBUG
     this._function.displayName = absoluteString;
 #endif
-}
+};
 
 DISPLAY_NAME(Executable.prototype.setCode);
 
 Executable.prototype.fileDependencies = function()
 {
     return this._fileDependencies;
-}
+};
 
 DISPLAY_NAME(Executable.prototype.fileDependencies);
 
 Executable.prototype.hasLoadedFileDependencies = function()
 {
     return this._fileDependencyStatus === ExecutableLoadedFileDependencies;
-}
+};
 
 DISPLAY_NAME(Executable.prototype.hasLoadedFileDependencies);
 
@@ -189,7 +189,7 @@ Executable.prototype.loadFileDependencies = function(aCallback)
 
         loadFileDependenciesForExecutable(this);
     }
-}
+};
 
 DISPLAY_NAME(Executable.prototype.loadFileDependencies);
 
@@ -269,28 +269,28 @@ Executable.prototype.referenceURL = function()
         this._referenceURL = new CFURL(".", this.URL());
 
     return this._referenceURL;
-}
+};
 
 DISPLAY_NAME(Executable.prototype.referenceURL);
 
 Executable.prototype.fileImporter = function()
 {
     return Executable.fileImporterForURL(this.referenceURL());
-}
+};
 
 DISPLAY_NAME(Executable.prototype.fileImporter);
 
 Executable.prototype.fileExecuter = function()
 {
     return Executable.fileExecuterForURL(this.referenceURL());
-}
+};
 
 DISPLAY_NAME(Executable.prototype.fileExecuter);
 
 Executable.prototype.fileExecutableSearcher = function()
 {
     return Executable.fileExecutableSearcherForURL(this.referenceURL());
-}
+};
 
 DISPLAY_NAME(Executable.prototype.fileExecutableSearcher);
 
@@ -321,7 +321,7 @@ Executable.fileExecuterForURL = function(/*CFURL|String*/ aURL)
     }
 
     return cachedFileExecuter;
-}
+};
 
 DISPLAY_NAME(Executable.fileExecuterForURL);
 
@@ -360,7 +360,7 @@ Executable.fileImporterForURL = function(/*CFURL|String*/ aURL)
     }
 
     return cachedFileImporter;
-}
+};
 
 DISPLAY_NAME(Executable.fileImporterForURL);
 
@@ -410,6 +410,6 @@ Executable.fileExecutableSearcherForURL = function(/*CFURL*/ referenceURL)
     }
 
     return cachedFileExecutableSearcher;
-}
+};
 
 DISPLAY_NAME(Executable.fileExecutableSearcherForURL);

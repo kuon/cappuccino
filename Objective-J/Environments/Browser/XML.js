@@ -21,5 +21,5 @@ window._parseXMLResolver = function()
         }
 
         return NULL;
-    }
-}
+    };
+};

@@ -77,12 +77,12 @@ function Lexer(/*String*/ aString)
 Lexer.prototype.push = function()
 {
     this._context.push(this._index);
-}
+};
 
 Lexer.prototype.pop = function()
 {
     this._index = this._context.pop();
-}
+};
 
 Lexer.prototype.peek = function(shouldSkipWhitespace)
 {
@@ -96,17 +96,17 @@ Lexer.prototype.peek = function(shouldSkipWhitespace)
     }
 
     return this._tokens[this._index + 1];
-}
+};
 
 Lexer.prototype.next = function()
 {
     return this._tokens[++this._index];
-}
+};
 
 Lexer.prototype.previous = function()
 {
     return this._tokens[--this._index];
-}
+};
 
 Lexer.prototype.last = function()
 {
@@ -114,7 +114,7 @@ Lexer.prototype.last = function()
         return NULL;
 
     return this._tokens[this._index - 1];
-}
+};
 
 Lexer.prototype.skip_whitespace = function(shouldMoveBackwards)
 {
@@ -126,7 +126,7 @@ Lexer.prototype.skip_whitespace = function(shouldMoveBackwards)
         while ((token = this.next()) && TOKEN_WHITESPACE.test(token)) ;
 
     return token;
-}
+};
 
 GLOBAL(objj_lexer) = Lexer;
 
@@ -141,17 +141,17 @@ function StringBuffer()
 StringBuffer.prototype.toString = function()
 {
     return this.atoms.join("");
-}
+};
 
 GLOBAL(objj_preprocess) = function(/*String*/ aString, /*CFURL*/ aURL, /*unsigned*/ flags)
 {
     return new Preprocessor(aString, aURL, flags).executable();
-}
+};
 
 GLOBAL(objj_eval) = function(/*String*/ aString)
 {
     return eval(objj_preprocess(aString).code());
-}
+};
 
 var Preprocessor = function(/*String*/ aString, /*CFURL|String*/ aURL, /*unsigned*/ flags)
 {
@@ -188,12 +188,12 @@ var Preprocessor = function(/*String*/ aString, /*CFURL|String*/ aURL, /*unsigne
 Preprocessor.prototype.setClassInfo = function(className, superClassName, ivars)
 {
     this._classLookupTable[className] = { superClassName:superClassName, ivars:ivars };
-}
+};
 
 Preprocessor.prototype.getClassInfo = function(className)
 {
     return this._classLookupTable[className];
-}
+};
 
 Preprocessor.prototype.allIvarNamesForClassName = function(className)
 {
@@ -209,7 +209,7 @@ Preprocessor.prototype.allIvarNamesForClassName = function(className)
     }
 
     return names;
-}
+};
 
 GLOBAL(objj_preprocessor) = Preprocessor;
 
@@ -224,7 +224,7 @@ Preprocessor.prototype.executable = function()
         this._executable = new Executable(this._buffer.toString(), this._dependencies, this._URL);
 
     return this._executable;
-}
+};
 
 Preprocessor.prototype.accessors = function(tokens)
 {
@@ -274,7 +274,7 @@ Preprocessor.prototype.accessors = function(tokens)
     }
 
     return attributes;
-}
+};
 
 Preprocessor.prototype.brackets = function(/*Lexer*/ tokens, /*StringBuffer*/ aStringBuffer)
 {
@@ -328,7 +328,7 @@ Preprocessor.prototype.brackets = function(/*Lexer*/ tokens, /*StringBuffer*/ aS
         CONCAT(aStringBuffer, marg_list);
         CONCAT(aStringBuffer, ')');
     }
-}
+};
 
 Preprocessor.prototype.directive = function(tokens, aStringBuffer, allowedDirectivesFlags)
 {
@@ -364,7 +364,7 @@ Preprocessor.prototype.directive = function(tokens, aStringBuffer, allowedDirect
 
     if (!aStringBuffer)
         return buffer;
-}
+};
 
 Preprocessor.prototype.hash = function(tokens, aStringBuffer)
 {
@@ -387,7 +387,7 @@ Preprocessor.prototype.hash = function(tokens, aStringBuffer)
     // if not a #pragma directive, it should not be processed here
     else
         throw new SyntaxError(this.error_message("*** Expected \"pragma\" to follow # but instead saw \"" + token + "\"."));
-}
+};
 
 Preprocessor.prototype.implementation = function(tokens, /*StringBuffer*/ aStringBuffer)
 {
@@ -614,7 +614,7 @@ Preprocessor.prototype.implementation = function(tokens, /*StringBuffer*/ aStrin
     CONCAT(buffer, '}');
 
     this._currentClass = "";
-}
+};
 
 Preprocessor.prototype._import = function(tokens)
 {
@@ -642,7 +642,7 @@ Preprocessor.prototype._import = function(tokens)
     CONCAT(this._buffer, isQuoted ? "\", YES);" : "\", NO);");
 
     this._dependencies.push(new FileDependency(new CFURL(URLString), isQuoted));
-}
+};
 
 Preprocessor.prototype.method = function(/*Lexer*/ tokens, ivar_names)
 {
@@ -749,7 +749,7 @@ Preprocessor.prototype.method = function(/*Lexer*/ tokens, ivar_names)
     this._currentSelector = "";
 
     return buffer;
-}
+};
 
 Preprocessor.prototype.preprocess = function(tokens, /*StringBuffer*/ aStringBuffer, terminator, instigator, tuple)
 {
@@ -959,7 +959,7 @@ Preprocessor.prototype.preprocess = function(tokens, /*StringBuffer*/ aStringBuf
 
     if (!aStringBuffer)
         return buffer;
-}
+};
 
 Preprocessor.prototype.selector = function(tokens, aStringBuffer)
 {
@@ -1004,11 +1004,11 @@ Preprocessor.prototype.selector = function(tokens, aStringBuffer)
 
     if (!aStringBuffer)
         return buffer;
-}
+};
 
 Preprocessor.prototype.error_message = function(errorMessage)
 {
     return errorMessage + " <Context File: "+ this._URL +
                                 (this._currentClass ? " Class: "+this._currentClass : "") +
                                 (this._currentSelector ? " Method: "+this._currentSelector : "") +">";
-}
+};

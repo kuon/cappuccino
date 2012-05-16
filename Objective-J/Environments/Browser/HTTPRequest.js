@@ -34,4 +34,4 @@ window._HTTPRequestResolver = function()
     if (!NativeRequest)
         NativeRequest = window.XMLHttpRequest;
     return NativeRequest;
-}
+};

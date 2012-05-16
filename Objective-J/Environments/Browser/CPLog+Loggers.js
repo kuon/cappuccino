@@ -8,7 +8,7 @@ GLOBAL(CPLogAlert) = function(aString, aLevel, aTitle, aFormatter)
         var message = (aFormatter || _CPFormatLogMessage)(aString, aLevel, aTitle);
         CPLogDisable = !confirm(message + "\n\n(Click cancel to stop log alerts)");
     }
-}
+};
 
 // CPLogPopup uses a slick popup window in the browser:
 var CPLogWindow = null;
@@ -47,7 +47,7 @@ GLOBAL(CPLogPopup) = function(aString, aLevel, aTitle, aFormatter)
     } catch(e) {
         // TODO: some error handling/reporting
     }
-}
+};
 
 var CPLogPopupStyle ='<style type="text/css" media="screen"> \
 body{font:10px Monaco,Courier,"Courier New",monospace,mono;padding-top:15px;} \

@@ -155,7 +155,7 @@ DISPLAY_NAME(CFDictionary.prototype.toString);
 GLOBAL(CFMutableDictionary) = function(/*CFDictionary*/ aDictionary)
 {
     CFDictionary.apply(this, []);
-}
+};
 
 CFMutableDictionary.prototype = new CFDictionary();
 

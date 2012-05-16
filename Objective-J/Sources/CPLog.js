@@ -39,7 +39,7 @@ var _CPLogRegistrations = {};
 GLOBAL(CPLogRegister) = function(aProvider, aMaxLevel, aFormatter)
 {
     CPLogRegisterRange(aProvider, CPLogLevels[0], aMaxLevel || CPLogLevels[CPLogLevels.length-1], aFormatter);
-}
+};
 
 // Register a logger for a range of levels
 GLOBAL(CPLogRegisterRange) = function(aProvider, aMinLevel, aMaxLevel, aFormatter)
@@ -50,7 +50,7 @@ GLOBAL(CPLogRegisterRange) = function(aProvider, aMinLevel, aMaxLevel, aFormatte
     if (min !== undefined && max !== undefined && min <= max)
         for (var i = min; i <= max; i++)
             CPLogRegisterSingle(aProvider, CPLogLevels[i], aFormatter);
-}
+};
 
 // Register a logger for a single level
 GLOBAL(CPLogRegisterSingle) = function(aProvider, aLevel, aFormatter)
@@ -67,14 +67,14 @@ GLOBAL(CPLogRegisterSingle) = function(aProvider, aLevel, aFormatter)
         }
 
     _CPLogRegistrations[aLevel].push([aProvider, aFormatter]);
-}
+};
 
 GLOBAL(CPLogUnregister) = function(aProvider) {
     for (var aLevel in _CPLogRegistrations)
         for (var i = 0; i < _CPLogRegistrations[aLevel].length; i++)
             if (_CPLogRegistrations[aLevel][i][0] === aProvider)
                 _CPLogRegistrations[aLevel].splice(i--, 1); // decrement since we're removing an element
-}
+};
 
 // Main CPLog, which dispatches to individual loggers
 function _CPLogDispatch(parameters, aLevel, aTitle)
@@ -97,7 +97,7 @@ function _CPLogDispatch(parameters, aLevel, aTitle)
 
 // Setup CPLog() and CPLog.xxx() aliases
 
-GLOBAL(CPLog) = function() { _CPLogDispatch(arguments); }
+GLOBAL(CPLog) = function() { _CPLogDispatch(arguments); };
 
 for (var i = 0; i < CPLogLevels.length; i++)
     CPLog[CPLogLevels[i]] = (function(level) { return function() { _CPLogDispatch(arguments, level); }; })(CPLogLevels[i]);
@@ -134,7 +134,7 @@ var _CPFormatLogMessage = function(aString, aLevel, aTitle)
             titleAndLevel, aString);
     else
         return now + " " + titleAndLevel + ": " + aString;
-}
+};
 
 // Loggers:
 
@@ -158,6 +158,6 @@ GLOBAL(CPLogConsole) = function(aString, aLevel, aTitle, aFormatter)
         else if (console.log)
             console.log(message);
     }
-}
+};
 
 

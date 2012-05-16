@@ -25,12 +25,12 @@ var OBJECT_COUNT   = 0;
 GLOBAL(objj_generateObjectUID) = function()
 {
     return OBJECT_COUNT++;
-}
+};
 
 GLOBAL(CFPropertyList) = function()
 {
     this._UID = objj_generateObjectUID();
-}
+};
 
 // We are really liberal when accepting DOCTYPEs.
 CFPropertyList.DTDRE = /^\s*(?:<\?\s*xml\s+version\s*=\s*\"1.0\"[^>]*\?>\s*)?(?:<\!DOCTYPE[^>]*>\s*)?/i
@@ -56,7 +56,7 @@ CFPropertyList.sniffedFormatOfString = function(/*String*/ aString)
        return CFPropertyList.Format280North_v1_0;
 
     return NULL;
-}
+};
 
 // Serialization
 
@@ -67,7 +67,7 @@ CFPropertyList.dataFromPropertyList = function(/*CFPropertyList*/ aPropertyList,
     data.setRawString(CFPropertyList.stringFromPropertyList(aPropertyList, aFormat));
 
     return data;
-}
+};
 
 CFPropertyList.stringFromPropertyList = function(/*CFPropertyList*/ aPropertyList, /*Format*/ aFormat)
 {
@@ -79,7 +79,7 @@ CFPropertyList.stringFromPropertyList = function(/*CFPropertyList*/ aPropertyLis
     return  serializers["start"]() +
             serializePropertyList(aPropertyList, serializers) +
             serializers["finish"]();
-}
+};
 
 function serializePropertyList(/*CFPropertyList*/ aPropertyList, /*Object*/ serializers)
 {
@@ -184,7 +184,7 @@ CFPropertyListSerializers[CFPropertyList.FormatXML_v1_0] =
 
                         return string + "</dict>";
                     }
-}
+};
 
 // 280 North Plist Format
 
@@ -263,7 +263,7 @@ CFPropertyListSerializers[CFPropertyList.Format280North_v1_0] =
 
                         return string + END_MARKER + ';';
                     }
-}
+};
 
 // Deserialization
 
@@ -318,7 +318,7 @@ var textContent = function(nodes)
     }
 
     return text;
-}
+};
 
 var _plist_traverseNextNode = function(anXMLNode, stayWithin, stack)
 {
@@ -375,12 +375,12 @@ var _plist_traverseNextNode = function(anXMLNode, stayWithin, stack)
     }
 
     return NULL;
-}
+};
 
 CFPropertyList.propertyListFromData = function(/*Data*/ aData, /*Format*/ aFormat)
 {
     return CFPropertyList.propertyListFromString(aData.rawString(), aFormat);
-}
+};
 
 CFPropertyList.propertyListFromString = function(/*String*/ aString, /*Format*/ aFormat)
 {
@@ -394,7 +394,7 @@ CFPropertyList.propertyListFromString = function(/*String*/ aString, /*Format*/ 
         return propertyListFrom280NorthString(aString);
 
     return NULL;
-}
+};
 
 // 280 North Plist Format
 
@@ -581,7 +581,7 @@ CFPropertyList.propertyListFromXML = function(/*String | XMLNode*/ aStringOrXMLN
     }
 
     return plistObject;
-}
+};
 
 GLOBAL(kCFPropertyListOpenStepFormat)      = CFPropertyList.FormatOpenStep;
 GLOBAL(kCFPropertyListXMLFormat_v1_0)      = CFPropertyList.FormatXML_v1_0;
@@ -591,34 +591,34 @@ GLOBAL(kCFPropertyList280NorthFormat_v1_0) = CFPropertyList.Format280North_v1_0;
 GLOBAL(CFPropertyListCreate) = function()
 {
     return new CFPropertyList();
-}
+};
 
 GLOBAL(CFPropertyListCreateFromXMLData) = function(/*Data*/ data)
 {
     return CFPropertyList.propertyListFromData(data, CFPropertyList.FormatXML_v1_0);
-}
+};
 
 GLOBAL(CFPropertyListCreateXMLData) = function(/*PropertyList*/ aPropertyList)
 {
     return CFPropertyList.dataFromPropertyList(aPropertyList, CFPropertyList.FormatXML_v1_0);
-}
+};
 
 GLOBAL(CFPropertyListCreateFrom280NorthData) = function(/*Data*/ data)
 {
     return CFPropertyList.propertyListFromData(data, CFPropertyList.Format280North_v1_0);
-}
+};
 
 GLOBAL(CFPropertyListCreate280NorthData) = function(/*PropertyList*/ aPropertyList)
 {
     return CFPropertyList.dataFromPropertyList(aPropertyList, CFPropertyList.Format280North_v1_0);
-}
+};
 
 GLOBAL(CPPropertyListCreateFromData) = function(/*CFData*/ data, /*Format*/ aFormat)
 {
     return CFPropertyList.propertyListFromData(data, aFormat);
-}
+};
 
 GLOBAL(CPPropertyListCreateData) = function(/*PropertyList*/ aPropertyList, /*Format*/ aFormat)
 {
     return CFPropertyList.dataFromPropertyList(aPropertyList, aFormat);
-}
+};

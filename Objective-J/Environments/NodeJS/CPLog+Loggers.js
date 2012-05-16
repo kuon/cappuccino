@@ -5,7 +5,7 @@ var levelColorMap = {
     "info" : "32",
     "debug": "36",
     "trace": "34"
-}
+};
 
 try {
     var FILE = require("fs");
@@ -21,12 +21,12 @@ GLOBAL(CPLogColorize) = function(aString, aLevel)
         return aString;
     else
         return "\033[" + (levelColorMap[aLevel] || "37") + "m" + aString + "\033[39m";
-}
+};
 
 GLOBAL(CPLogPrint) = function(aString, aLevel, aTitle, aFormatter)
 {
     var formatter = aFormatter || _CPFormatLogMessage;
     console.log(CPLogColorize(formatter(aString, aLevel, aTitle), aLevel));
-}
+};
 
 CPLogDefault = CPLogPrint;

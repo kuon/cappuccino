@@ -1,4 +1,5 @@
-window._HTTPRequestResolver = function() {
+window._HTTPRequestResolver = function()
+{
 
     NativeRequest = function()
     {
@@ -15,25 +16,27 @@ window._HTTPRequestResolver = function() {
         this._sent = false;
         this._error = false;
         this._responseHeaders = {};
-    }
+    };
 
     NativeRequest.prototype.open = function(/*String*/ aMethod, /*String*/ aURL, /*Boolean*/ isAsynchronous, /*String*/ aUser, /*String*/ aPassword)
     {
-        this.abort();
+
         if (!isAsynchronous)
             throw "Only asynchronous requests are supported";
+
+        this.abort();
         this._URL = aURL.replace(/^file:/, '');
         this._method = aMethod;
         this._error = false;
         this._contentType = 'text/plain';
         this._contentEncoding = 'UTF-8';
         this.setState(this.OPENED);
-    }
+    };
 
     NativeRequest.prototype.getResponseHeader = function(/*String*/ headerName)
     {
         return this._responseHeaders[headerName.toLowerCase()];
-    }
+    };
 
     NativeRequest.prototype.setRequestHeader = function(/*String*/ headerName, /*String*/ headerValue)
     {
@@ -43,7 +46,7 @@ window._HTTPRequestResolver = function() {
             this._contentType = headerValue;
         else if (headerName == 'content-encoding')
             this._contentEncoding = headerValue;
-    }
+    };
 
     NativeRequest.prototype.send = function(/*String*/ body)
     {
@@ -79,19 +82,19 @@ window._HTTPRequestResolver = function() {
         }
         else
             throw 'Unsupported HTTP method, only GET and POST is supported';
-    }
+    };
 
     NativeRequest.prototype.abort = function()
     {
         this._error = true;
-    }
+    };
 
     NativeRequest.prototype.setState = function(state)
     {
         this.readyState = state;
         if (typeof(this.onreadystatechange) === "function")
             this.onreadystatechange();
-    }
+    };
 
     return NativeRequest;
 }

@@ -148,7 +148,7 @@ CFBundle.prototype.mostEligibleEnvironmentURL = function()
         this._mostEligibleEnvironmentURL = new CFURL(this.mostEligibleEnvironment() + ".environment/", this.bundleURL());
 
     return this._mostEligibleEnvironmentURL;
-}
+};
 
 DISPLAY_NAME(CFBundle.prototype.mostEligibleEnvironmentURL);
 

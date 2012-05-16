@@ -45,7 +45,7 @@ GLOBAL(objj_msgSend_reset) = function()
 {
     objj_msgSend = objj_msgSend_original;
     objj_msgSendSuper = objj_msgSendSuper_original;
-}
+};
 
 // decorate both objj_msgSend and objj_msgSendSuper
 GLOBAL(objj_msgSend_decorate) = function()
@@ -58,14 +58,14 @@ GLOBAL(objj_msgSend_decorate) = function()
         objj_msgSend = arguments[index](objj_msgSend);
         objj_msgSendSuper = arguments[index](objj_msgSendSuper);
     }
-}
+};
 
 // reset then decorate both objj_msgSend and objj_msgSendSuper
 GLOBAL(objj_msgSend_set_decorators) = function()
 {
     objj_msgSend_reset();
     objj_msgSend_decorate.apply(NULL, arguments);
-}
+};
 
 
 // backtrace decorator
@@ -83,7 +83,7 @@ GLOBAL(objj_backtrace_print) = function(/*Callable*/ aStream)
 
         aStream(objj_debug_message_format(frame.receiver, frame.selector));
     }
-}
+};
 
 GLOBAL(objj_backtrace_decorator) = function(msgSend)
 {
@@ -115,7 +115,7 @@ GLOBAL(objj_backtrace_decorator) = function(msgSend)
             objj_backtrace.pop();
         }
     }
-}
+};
 
 GLOBAL(objj_supress_exceptions_decorator) = function(msgSend)
 {
@@ -133,7 +133,7 @@ GLOBAL(objj_supress_exceptions_decorator) = function(msgSend)
             CPLog.warn("Exception " + anException + " in " + objj_debug_message_format(aReceiver, aSelector));
         }
     }
-}
+};
 
 // type checking decorator
 
@@ -186,8 +186,8 @@ GLOBAL(objj_typecheck_decorator) = function(msgSend)
         }
 
         return result;
-    }
-}
+    };
+};
 
 // type checking logic:
 GLOBAL(objj_debug_typecheck) = function(expectedType, object)
@@ -239,4 +239,4 @@ GLOBAL(objj_debug_typecheck) = function(expectedType, object)
         actualType = typeof object;
 
     throw ("expected=" + expectedType + ", actual=" + actualType);
-}
+};

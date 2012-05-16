@@ -19,7 +19,7 @@ global._HTTPRequestResolver = function()
         this.DONE = 4;
         this._sent = false;
         this._error = false;
-    }
+    };
 
     NativeRequest.prototype.open = function(/*String*/ aMethod, /*String*/ aURL, /*Boolean*/ isAsynchronous, /*String*/ aUser, /*String*/ aPassword)
     {

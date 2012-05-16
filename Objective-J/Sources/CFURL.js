@@ -201,7 +201,7 @@ GLOBAL(CFURL) = function(/*CFURL|String*/ aURL, /*CFURL*/ aBaseURL)
 
     this._string = aURL;
     this._baseURL = aBaseURL;
-}
+};
 
 DISPLAY_NAME(CFURL);
 
