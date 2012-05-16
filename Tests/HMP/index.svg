@@ -5,11 +5,10 @@
   <script type="application/ecmascript">
     <![CDATA[
     function afterload() {
-alert('toto');
-CPLogRegister(CPLogDefault);
-CPLog('boum');
+        CPLogRegister(CPLogDefault);
 
-objj_importFile('main.j', YES);
+        objj_importFile('main.j', YES);
+        CPLog('FILE IMPORTED');
     }
         ]]>
   </script>

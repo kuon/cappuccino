@@ -1,34 +1,10 @@
-// Copied from CPObject in foundation for testing until we can build foundation
+@import <Foundation/Foundation.j>
 
-@implementation Test
-{
-    Class isa;
-}
+var o = @"Hello world";
 
-+ (void)load
-{
-}
+var test = [CPArray new];
+[test addObject:o];
+CPLog('In main.j');
+CPLog([test description]);
 
-+ (void)initialize
-{
-}
 
-+ (id)new
-{
-    return [[self alloc] init];
-}
-
-+ (id)alloc
-{
-    return class_createInstance(self);
-}
-
-- (void)sayHello
-{
-    CPLog('Hello');
-}
-
-@end
-
-var t = [Test alloc];
-[t sayHello];

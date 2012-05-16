@@ -1,8 +1,4 @@
-HTTPWrapper = function() {
-}
-
-
-#define CONFIG_HTTP_CUSTOM_CLASS HTTPWrapper
+#define CONFIG_ENVIRONEMENTS ["HMP", "ObjJ"]
 #define CONFIG_GLOBAL_OBJECT window
 #define CONFIG_MAIN_BUNDLE_RESOLVER window._mainBundleResolver
 #define CONFIG_PARSE_XML_RESOLVER window._parseXMLResolver
