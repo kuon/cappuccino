@@ -32,7 +32,7 @@ global._HTTPRequestResolver = function()
         this._headers = [];
         this._error = false;
         this.setState(this.OPENED);
-    }
+    };
 
     NativeRequest.prototype.getResponseHeader = function(/*String*/ headerName)
     {
@@ -40,13 +40,15 @@ global._HTTPRequestResolver = function()
             return this._response.headers[headerName.toLowerCase()];
 
         return null;
-    }
+    };
 
     NativeRequest.prototype.setRequestHeader = function(/*String*/ headerName, /*String*/ headerValue)
     {
-        if (this._sent) throw "Cannot set header on sent request";
+        if (this._sent)
+            throw "Cannot set header on sent request";
+
         this._headers[headerName.toLowerCase()] = headerValue;
-    }
+    };
 
     NativeRequest.prototype.send = function(/*String*/ body)
     {
@@ -55,7 +57,9 @@ global._HTTPRequestResolver = function()
             host,
             path;
 
-        if (this._sent) throw "Request already sent";
+        if (this._sent)
+            throw "Request already sent";
+
         switch (this._URL.protocol)
         {
             case 'https:':
@@ -88,6 +92,7 @@ global._HTTPRequestResolver = function()
             if (self._method != 'GET')
                 throw 'Only GET requests are supported for files';
 
+
             var FS = require('fs');
             if (self._isAsynchronous)
             {
@@ -95,6 +100,7 @@ global._HTTPRequestResolver = function()
                 {
                     if (self._sent)
                         self.setState(self.LOADING);
+
                     self.responseText = data;
                     self.setState(self.DONE);
                     self.status = 0;
@@ -116,6 +122,7 @@ global._HTTPRequestResolver = function()
                 method: self._method,
                 headers: self._headers
             };
+
             if (self._user && self._password)
                 options['auth'] = self._user + ':' + self._password;
 
@@ -131,8 +138,10 @@ global._HTTPRequestResolver = function()
                 {
                     if (chunk)
                         self.responseText += chunk;
+
                     if (self._sent)
                         self.setState(self.LOADING);
+
                 });
 
                 self._response.on('end', function()
@@ -158,7 +167,7 @@ global._HTTPRequestResolver = function()
 
             self._request.end();
         }
-    }
+    };
 
     NativeRequest.prototype.handleError = function(error)
     {
@@ -167,7 +176,7 @@ global._HTTPRequestResolver = function()
         this.responseText = error.stack;
         this.setState(this.DONE);
         this._error = true;
-    }
+    };
 
     NativeRequest.prototype.abort = function()
     {
@@ -188,14 +197,16 @@ global._HTTPRequestResolver = function()
           this._sent = false;
           this.setState(this.DONE);
         }
+
         this.readyState = this.UNSENT;
-    }
+    };
 
     NativeRequest.prototype.setState = function(state)
     {
         this.readyState = state;
+
         if (typeof(this.onreadystatechange) === "function")
             this.onreadystatechange();
-    }
+    };
     return NativeRequest;
-}
+};

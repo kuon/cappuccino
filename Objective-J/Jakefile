@@ -1,19 +1,24 @@
 require('../jakelib/utils.js');
 
-var FILE = require('fs');
-var sharedSources = new jake.FileList();
+var FILE = require('fs'),
+    sharedSources = new jake.FileList(),
+    environments = FILE.readdirSync('Environments'),
+    environmentTargets = [],
+    BUILD_DIR = '../Build/Objective-J';
+
+
 sharedSources.include('Sources/*.js');
 sharedSources = sharedSources.toArray();
 
-var environments = FILE.readdirSync('Environments');
-
-var environmentTargets = [];
-
-var BUILD_DIR = '../Build/Objective-J';
+desc('Objective-J build directory');
 directory(BUILD_DIR);
 
 // Create one task per environment
-environments.forEach(function(env) {
+environments.forEach(function(env)
+{
+    if (env.search(/^\./) != -1)
+        return;
+
     var source = 'Environments/' + env + '/Objective-J.' + env + '.js',
         target = BUILD_DIR + '/Objective-J.' + env + '.js',
         envSources = new jake.FileList(),
@@ -25,12 +30,14 @@ environments.forEach(function(env) {
     environmentTargets.push(target);
 
     desc('Preprocess ' + env + 'environment');
-    file(target, [BUILD_DIR].concat(sharedSources).concat(envSources), function () {
+    file(target, [BUILD_DIR].concat(sharedSources).concat(envSources), function ()
+    {
         cpp(source, target, flags);
     }, {async: true});
 });
 
 
-task('default', environmentTargets, function() {
+task('default', environmentTargets, function()
+{
     console.log('# Objective-J built');
 });
