@@ -38,14 +38,14 @@ function MarkedStream(/*String*/ aString)
 MarkedStream.prototype.magicNumber = function()
 {
     return this._magicNumber;
-}
+};
 
 DISPLAY_NAME(MarkedStream.prototype.magicNumber);
 
 MarkedStream.prototype.version = function()
 {
     return this._version;
-}
+};
 
 DISPLAY_NAME(MarkedStream.prototype.version);
 
@@ -70,7 +70,7 @@ MarkedStream.prototype.getMarker = function()
     this._location = next + 1;
 
     return marker;
-}
+};
 
 DISPLAY_NAME(MarkedStream.prototype.getMarker);
 
@@ -93,6 +93,6 @@ MarkedStream.prototype.getString = function()
     this._location = next + 1 + size;
 
     return text;
-}
+};
 
 DISPLAY_NAME(MarkedStream.prototype.getString);
