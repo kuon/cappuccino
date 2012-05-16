@@ -30,6 +30,7 @@ global._HTTPRequestResolver = function() {
         this._method = aMethod;
         this._headers = [];
         this._error = false;
+        this.setState(this.OPENED);
     }
 
     NativeRequest.prototype.getResponseHeader = function(/*String*/ headerName)
@@ -179,7 +180,8 @@ global._HTTPRequestResolver = function() {
         this.readyState = this.UNSENT;
     }
 
-    NativeRequest.prototype.setState = function(state) {
+    NativeRequest.prototype.setState = function(state)
+    {
         this.readyState = state;
         if (typeof(this.onreadystatechange) === "function")
             this.onreadystatechange();
