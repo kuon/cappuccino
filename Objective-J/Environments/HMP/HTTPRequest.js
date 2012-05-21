@@ -105,4 +105,4 @@ window._HTTPRequestResolver = function()
     };
 
     return NativeRequest;
-}
+};

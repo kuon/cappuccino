@@ -20,7 +20,7 @@ GLOBAL(CFPropertyList) = function()
 };
 
 // We are really liberal when accepting DOCTYPEs.
-CFPropertyList.DTDRE = /^\s*(?:<\?\s*xml\s+version\s*=\s*\"1.0\"[^>]*\?>\s*)?(?:<\!DOCTYPE[^>]*>\s*)?/i
+CFPropertyList.DTDRE = /^\s*(?:<\?\s*xml\s+version\s*=\s*\"1.0\"[^>]*\?>\s*)?(?:<\!DOCTYPE[^>]*>\s*)?/i;
 CFPropertyList.XMLRE = /^\s*(?:<\?\s*xml\s+version\s*=\s*\"1.0\"[^>]*\?>\s*)?(?:<\!DOCTYPE[^>]*>\s*)?<\s*plist[^>]*\>/i;
 
 CFPropertyList.FormatXMLDTD = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">";
@@ -429,7 +429,7 @@ function propertyListFrom280NorthString(/*String*/ aString)
 
         switch (marker)
         {
-            case ARRAY_MARKER:      object = []
+            case ARRAY_MARKER:      object = [];
                                     containers.push(object);
                                     break;
             case DICTIONARY_MARKER: object = new CFMutableDictionary();
@@ -520,7 +520,7 @@ CFPropertyList.propertyListFromXML = function(/*String | XMLNode*/ aStringOrXMLN
 
         switch (String(NODE_NAME(XMLNode)))
         {
-            case PLIST_ARRAY:           object = []
+            case PLIST_ARRAY:           object = [];
                                         containers.push(object);
                                         break;
             case PLIST_DICTIONARY:      object = new CFMutableDictionary();

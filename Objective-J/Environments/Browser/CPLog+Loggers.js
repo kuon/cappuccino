@@ -143,15 +143,15 @@ function _CPLogInitPopup(logWindow)
         elem.setAttribute("enabled", enabled);
 
         if (enabled == "yes")
-            logWindow.log.className += " " + elem.id
+            logWindow.log.className += " " + elem.id;
         else
             logWindow.log.className = logWindow.log.className.replace(new RegExp("[\\s]*"+elem.id, "g"), "");
-    }
+    };
 
     // Scroll
     logWindow.scrollToBottom = function() {
         logWindow.scrollTo(0, body.offsetHeight);
-    }
+    };
 
     // Wrap
     logWindow.wrapEnabled.addEventListener("click", function() {

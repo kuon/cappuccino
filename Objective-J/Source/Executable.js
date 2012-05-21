@@ -302,7 +302,7 @@ Executable.fileExecuterForURL = function(/*CFURL|String*/ aURL)
 
                 aFileExecutable.execute(shouldForce);
             });
-        }
+        };
 
         cachedFileExecuters[referenceURLString] = cachedFileExecuter;
     }
@@ -341,7 +341,7 @@ Executable.fileImporterForURL = function(/*CFURL|String*/ aURL)
                         aCallback();
                 });
             });
-        }
+        };
 
         cachedFileImporters[referenceURLString] = cachedFileImporter;
     }

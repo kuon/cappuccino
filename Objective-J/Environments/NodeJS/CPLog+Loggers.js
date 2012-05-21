@@ -18,7 +18,7 @@ var levelColorMap = {
 try {
     var FILE = require("fs");
     if (process.title)
-        CPLogDefaultTitle = process.title
+        CPLogDefaultTitle = process.title;
 } catch (e) {
 }
 

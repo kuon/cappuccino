@@ -13,7 +13,7 @@ GLOBAL(CFDictionary) = function(/*CFDictionary*/ aDictionary)
     this._count = 0;
     this._buckets = { };
     this._UID = objj_generateObjectUID();
-}
+};
 
 var indexOf = Array.prototype.indexOf,
     hasOwnProperty = Object.prototype.hasOwnProperty;

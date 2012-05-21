@@ -25,7 +25,7 @@ window._parseXMLResolver = function()
 
             XMLNode.loadXML(aString);
 
-            return XMLNode
+            return XMLNode;
         }
 
         return NULL;

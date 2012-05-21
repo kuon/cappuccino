@@ -1,7 +1,7 @@
 require('../jakelib/utils.js');
 
 var sources = new jake.FileList(),
-    BUILD_DIR = '../Build/Foundation',
+    BUILD_DIR = '../Build/Foundation.build',
     cppTargets = [];
 
 sources.include('Source/*.j');

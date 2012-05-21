@@ -101,7 +101,7 @@ GLOBAL(objj_backtrace_decorator) = function(msgSend)
             // make sure to always pop
             objj_backtrace.pop();
         }
-    }
+    };
 };
 
 GLOBAL(objj_supress_exceptions_decorator) = function(msgSend)
@@ -119,7 +119,7 @@ GLOBAL(objj_supress_exceptions_decorator) = function(msgSend)
             // print the exception and backtrace
             CPLog.warn("Exception " + anException + " in " + objj_debug_message_format(aReceiver, aSelector));
         }
-    }
+    };
 };
 
 // type checking decorator
@@ -146,7 +146,8 @@ GLOBAL(objj_typecheck_decorator) = function(msgSend)
             catch (e)
             {
                 var key = [GETMETA(aReceiver).name, aSelector, i, e].join(";");
-                if (!objj_typechecks_reported[key]) {
+                if (!objj_typechecks_reported[key])
+                {
                     objj_typechecks_reported[key] = YES;
                     CPLog.warn("Type check failed on argument " + (i-2) + " of " + objj_debug_message_format(aReceiver, aSelector) + ": " + e);
                     if (objj_typecheck_prints_backtrace)
@@ -164,7 +165,8 @@ GLOBAL(objj_typecheck_decorator) = function(msgSend)
         catch (e)
         {
             var key = [GETMETA(aReceiver).name, aSelector, "ret", e].join(";");
-            if (!objj_typechecks_reported[key]) {
+            if (!objj_typechecks_reported[key])
+            {
                 objj_typechecks_reported[key] = YES;
                 CPLog.warn("Type check failed on return val of " + objj_debug_message_format(aReceiver, aSelector) + ": " + e);
                 if (objj_typecheck_prints_backtrace)

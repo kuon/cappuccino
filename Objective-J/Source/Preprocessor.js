@@ -170,7 +170,7 @@ var Preprocessor = function(/*String*/ aString, /*CFURL|String*/ aURL, /*unsigne
         this._classVars[i] = 1;
 
     this.preprocess(this._tokens, this._buffer);
-}
+};
 
 Preprocessor.prototype.setClassInfo = function(className, superClassName, ivars)
 {

@@ -1,44 +1,63 @@
 require('../jakelib/utils.js');
 
-var FILE = require('fs'),
+var BUILD_DIR = '../Build',
+    ENVIRONMENTS = FILE.readdirSync('Environments'),
     sharedSources = new jake.FileList(),
-    environments = FILE.readdirSync('Environments'),
-    environmentTargets = [],
-    BUILD_DIR = '../Build/Objective-J';
+    targets = [];
 
 
 sharedSources.include('Source/*.js');
 sharedSources = sharedSources.toArray();
 
-desc('Objective-J build directory');
-directory(BUILD_DIR);
 
-// Create one task per environment
-environments.forEach(function(env)
+// Create one set of tasks per environment per configuration
+CONFIGURATIONS.forEach(function(configName)
 {
-    if (env.search(/^\./) != -1) // Avoid .DS_Store or other invisible files
-        return;
+    var finalBuildDir = BUILD_DIR + '/' + configName + '/Objective-J',
+        intermediateBuildDir = BUILD_DIR + '/Objective-J.build/' + configName;
 
-    var source = 'Environments/' + env + '/Objective-J.' + env + '.js',
-        target = BUILD_DIR + '/Objective-J.' + env + '.js',
-        envSources = new jake.FileList(),
-        flags = ['-ISource',  '-IEnvironments/' + env];
+    recursiveDirectory(finalBuildDir);
+    recursiveDirectory(intermediateBuildDir);
 
-    environmentTargets.push(target);
-
-    envSources.include('Environments/' + env + '/*');
-    envSources = envSources.toArray();
-
-    desc('Preprocess ' + env + 'environment');
-    file(target, [BUILD_DIR].concat(sharedSources).concat(envSources), function ()
+    ENVIRONMENTS.forEach(function(env)
     {
-        cpp(source, target, flags);
-    }, {async: true});
+        if (!FILE.statSync('Environments/' + env).isDirectory())
+            return;
+
+        var source = 'Environments/' + env + '/Objective-J.' + env + '.js',
+            envSources = new jake.FileList(),
+            flags = ['-ISource',  '-IEnvironments/' + env],
+            intermediateTarget = intermediateBuildDir + '/Objective-J.' + env + '.js',
+            finalTarget = finalBuildDir + '/Objective-J.' + env + '.js';
+
+        if (configName === 'Debug')
+            flags.push('-DDEBUG');
+
+        envSources.include('Environments/' + env + '/*');
+        envSources = envSources.toArray();
+
+
+        file(intermediateTarget, [intermediateBuildDir].concat(sharedSources).concat(envSources), function()
+        {
+            cpp(source, intermediateTarget, flags);
+        }, {async: true});
+
+        file(finalTarget, [intermediateTarget, finalBuildDir], function()
+        {
+            if (configName === 'Release')
+                minify(intermediateTarget, finalTarget);
+            else
+                jake.cpR(intermediateTarget, finalTarget);
+        });
+
+        targets.push(finalTarget);
+
+    });
 });
 
 
-desc('Default task');
-task('default', environmentTargets, function()
+desc('Build Objective-J');
+task('default', targets, function()
 {
     console.log('# Objective-J built');
 });

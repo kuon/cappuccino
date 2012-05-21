@@ -94,7 +94,7 @@ GLOBAL(objj_sprintf) = function(format)
                 {
                     var number = String(Math.abs(Math.floor(num)));
 
-                    subresult = justify(sign, "", number, "", width, leftJustify, padZeros)
+                    subresult = justify(sign, "", number, "", width, leftJustify, padZeros);
                 }
 
                 if (specifier == "f")
@@ -164,7 +164,7 @@ GLOBAL(objj_sprintf) = function(format)
         }
     }
     return result;
-}
+};
 
 function justify(sign, prefix, string, suffix, width, leftJustify, padZeros)
 {

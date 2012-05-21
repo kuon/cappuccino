@@ -80,7 +80,7 @@ global._HTTPRequestResolver = function()
             case 'file:':
                 path = this._URL.pathname;
                 file = true;
-                break
+                break;
             default:
                 throw "Protocol not supported.";
         }

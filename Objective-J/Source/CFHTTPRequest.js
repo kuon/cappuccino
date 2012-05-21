@@ -30,7 +30,7 @@ GLOBAL(CFHTTPRequest) = function()
             {
                 CFHTTPRequest.AuthenticationDelegate(self);
             });
-}
+};
 
 CFHTTPRequest.UninitializedState    = 0;
 CFHTTPRequest.LoadingState          = 1;

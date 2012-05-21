@@ -18,7 +18,7 @@ GLOBAL(CFData) = function()
 
     this._bytes = NULL;
     this._base64 = NULL;
-}
+};
 
 CFData.prototype.propertyList = function()
 {
@@ -126,7 +126,7 @@ CFMutableData.prototype.setJSONObject = function(/*Object*/ anObject)
 {
     clearMutableData(this);
 
-    this._JSONObject = anObject
+    this._JSONObject = anObject;
 };
 
 CFMutableData.prototype.setRawString = function(/*String*/ aString)
