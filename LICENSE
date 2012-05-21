@@ -1,3 +1,37 @@
+                ORIGINAL AUTHORS
+
+- Francisco Tolmasky, Copyright 2008-2010, 280 North, Inc.
+- Ross Boucher, Copyright 2008, 280 North, Inc.
+- Thomas Robinson, Copyright 2008-2010, 280 North, Inc.
+- Bailey Carlson, Copyright 2008-2010, 280 North, Inc.
+- Nabil Elisa, Copyright 2008-2010, 280 North, Inc.
+- Nicholas Small, Copyright 2008-2010, 280 North, Inc.
+
+                CONTRIBUTORS
+
+- Aparajita Fishman, Copyright 2012, Cappuccino Foundation
+- Alexander Ljungberg, Copyright 2012, SlevenBits Ltd.
+- Randall Luecke, Copyright 2010, RCLConcepts, LLC.
+- Johannes Fahrenkrug, Copyright 2009, Springenwerk
+- Daniel Stolzenberg, Copyright 2010, University of Rostock
+- Emanuele Vulcano, Copyright 2008
+- Nick Takayama, Copyright 2008
+
+- Foundation, CPDecimal port and support classes, Stephen Paul Ierodiaconou
+- Foundation, CPPredicate, cacaodev, Copyright 2010
+
+                OTHERS
+
+- Objective-J, json2 parser, http://www.JSON.org/json2.js
+- Portions of this library are ported from GNUStep Base Library
+  (http://www.gnustep.org/), Copyright 2005 Free Software Foundation
+- Portions of this library is based on Cocotron (http://www.cocotron.org/),
+  Copyright (c) 2006-2007 Christopher J. W. Lloyd
+
+
+
+                LICENCE
+
 		  GNU LESSER GENERAL PUBLIC LICENSE
 		       Version 2.1, February 1999
 
@@ -146,7 +180,7 @@ such a program is covered only if its contents constitute a work based
 on the Library (independent of the use of the Library in a tool for
 writing it).  Whether that is true depends on what the Library does
 and what the program that uses the Library does.
-  
+
   1. You may copy and distribute verbatim copies of the Library's
 complete source code as you receive it, in any medium, provided that
 you conspicuously and appropriately publish on each copy an

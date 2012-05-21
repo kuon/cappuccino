@@ -1,3 +1,4 @@
+
 GLOBAL(OBJJ_MAIN_BUNDLE_URL) = CONFIG_MAIN_BUNDLE_RESOLVER();
 
 GLOBAL(objj_importFile) = Executable.fileImporterForURL(OBJJ_MAIN_BUNDLE_URL);
