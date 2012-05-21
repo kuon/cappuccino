@@ -1,3 +1,11 @@
+/***
+ * CPPropertyListSerialization.j
+ * Foundation framework
+ *
+ * Part of the Cappuccino project.
+ *
+ * Licence and copyright in the LICENCE file.
+ ***/
 
 @import "CPException.j"
 @import "CPObject.j"

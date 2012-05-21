@@ -1,3 +1,11 @@
+/***
+ * CPObject.j
+ * Foundation framework
+ *
+ * Part of the Cappuccino project.
+ *
+ * Licence and copyright in the LICENCE file.
+ ***/
 
 /*!
     @class CPObject

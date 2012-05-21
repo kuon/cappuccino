@@ -1,3 +1,11 @@
+/***
+ * Objective-J.js
+ * Objective-J framework
+ *
+ * Part of the Cappuccino project.
+ *
+ * Licence and copyright in the LICENCE file.
+ ***/
 
 #ifdef DEBUG
 #define DISPLAY_NAME(name) name.displayName = #name

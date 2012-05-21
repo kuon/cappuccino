@@ -1,3 +1,11 @@
+/***
+ * _CPVariableExpression.j
+ * Foundation framework
+ *
+ * Part of the Cappuccino project.
+ *
+ * Licence and copyright in the LICENCE file.
+ ***/
 
 @import "CPDictionary.j"
 @import "CPException.j"

@@ -1,3 +1,11 @@
+/***
+ * _CPCollectionKVCOperators.j
+ * Foundation framework
+ *
+ * Part of the Cappuccino project.
+ *
+ * Licence and copyright in the LICENCE file.
+ ***/
 
 @implementation _CPCollectionKVCOperator : CPObject
 

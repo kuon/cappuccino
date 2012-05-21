@@ -55,4 +55,5 @@ task('update-headers', function()
         });
     }
     applyToDirectory('Foundation');
+    applyToDirectory('Objective-J');
 });

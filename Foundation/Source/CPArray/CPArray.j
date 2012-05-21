@@ -1,3 +1,11 @@
+/***
+ * CPArray.j
+ * Foundation framework
+ *
+ * Part of the Cappuccino project.
+ *
+ * Licence and copyright in the LICENCE file.
+ ***/
 
 @import "CPEnumerator.j"
 @import "CPException.j"

@@ -1,3 +1,11 @@
+/***
+ * _CPKeyPathExpression.j
+ * Foundation framework
+ *
+ * Part of the Cappuccino project.
+ *
+ * Licence and copyright in the LICENCE file.
+ ***/
 
 @import "CPExpression.j"
 @import "_CPFunctionExpression.j"

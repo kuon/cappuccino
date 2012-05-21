@@ -1,6 +1,6 @@
 /***
  * @filename
- * @framework
+ * @framework framework
  *
  * Part of the Cappuccino project.
  *

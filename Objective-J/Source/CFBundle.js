@@ -1,3 +1,11 @@
+/***
+ * CFBundle.js
+ * Objective-J framework
+ *
+ * Part of the Cappuccino project.
+ *
+ * Licence and copyright in the LICENCE file.
+ ***/
 
 var CFBundleUnloaded                = 0,
     CFBundleLoading                 = 1 << 0,

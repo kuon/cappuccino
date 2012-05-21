@@ -1,3 +1,11 @@
+/***
+ * Objective-J.NodeJS.js
+ * Objective-J framework
+ *
+ * Part of the Cappuccino project.
+ *
+ * Licence and copyright in the LICENCE file.
+ ***/
 #define CONFIG_ENVIRONEMENTS ["NodeJS", "ObjJ"]
 #define CONFIG_GLOBAL_OBJECT global
 #define CONFIG_MAIN_BUNDLE_RESOLVER global._mainBundleResolver

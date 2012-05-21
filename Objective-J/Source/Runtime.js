@@ -1,3 +1,11 @@
+/***
+ * Runtime.js
+ * Objective-J framework
+ *
+ * Part of the Cappuccino project.
+ *
+ * Licence and copyright in the LICENCE file.
+ ***/
 
 var CLS_CLASS           = 0x1,
     CLS_META            = 0x2,

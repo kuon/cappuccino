@@ -1,3 +1,11 @@
+/***
+ * CPLog+Loggers.js
+ * Objective-J framework
+ *
+ * Part of the Cappuccino project.
+ *
+ * Licence and copyright in the LICENCE file.
+ ***/
 var levelColorMap = {
     "fatal": "31",
     "error": "31",

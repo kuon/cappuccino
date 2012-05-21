@@ -1,3 +1,11 @@
+/***
+ * CPDecimalNumber.j
+ * Foundation framework
+ *
+ * Part of the Cappuccino project.
+ *
+ * Licence and copyright in the LICENCE file.
+ ***/
 
 @import "CPDecimal.j"
 @import "CPException.j"

@@ -1,3 +1,11 @@
+/***
+ * Objective-J.HMP.js
+ * Objective-J framework
+ *
+ * Part of the Cappuccino project.
+ *
+ * Licence and copyright in the LICENCE file.
+ ***/
 #define CONFIG_ENVIRONEMENTS ["HMP", "ObjJ"]
 #define CONFIG_GLOBAL_OBJECT window
 #define CONFIG_MAIN_BUNDLE_RESOLVER window._mainBundleResolver

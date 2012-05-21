@@ -1,3 +1,11 @@
+/***
+ * _CPSubqueryExpression.j
+ * Foundation framework
+ *
+ * Part of the Cappuccino project.
+ *
+ * Licence and copyright in the LICENCE file.
+ ***/
 
 @import "CPArray.j"
 @import "CPDictionary.j"

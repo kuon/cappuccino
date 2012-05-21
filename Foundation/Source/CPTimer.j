@@ -1,3 +1,11 @@
+/***
+ * CPTimer.j
+ * Foundation framework
+ *
+ * Part of the Cappuccino project.
+ *
+ * Licence and copyright in the LICENCE file.
+ ***/
 
 @import "CPDate.j"
 @import "CPInvocation.j"

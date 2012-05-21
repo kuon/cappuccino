@@ -1,3 +1,11 @@
+/***
+ * Preprocessor.js
+ * Objective-J framework
+ *
+ * Part of the Cappuccino project.
+ *
+ * Licence and copyright in the LICENCE file.
+ ***/
 
 var TOKEN_ACCESSORS         = "accessors",
     TOKEN_CLASS             = "class",

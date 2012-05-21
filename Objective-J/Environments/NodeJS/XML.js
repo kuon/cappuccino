@@ -1,3 +1,11 @@
+/***
+ * XML.js
+ * Objective-J framework
+ *
+ * Part of the Cappuccino project.
+ *
+ * Licence and copyright in the LICENCE file.
+ ***/
 global._parseXMLResolver = function()
 {
     return function(aString)

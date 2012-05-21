@@ -1,3 +1,11 @@
+/***
+ * CFHTTPRequest.js
+ * Objective-J framework
+ *
+ * Part of the Cappuccino project.
+ *
+ * Licence and copyright in the LICENCE file.
+ ***/
 
 var NativeRequest = CONFIG_HTTP_REQUEST_RESOLVER();
 

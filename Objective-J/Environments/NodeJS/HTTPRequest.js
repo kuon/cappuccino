@@ -1,3 +1,11 @@
+/***
+ * HTTPRequest.js
+ * Objective-J framework
+ *
+ * Part of the Cappuccino project.
+ *
+ * Licence and copyright in the LICENCE file.
+ ***/
 global._HTTPRequestResolver = function()
 {
     var HTTP = require('http'),
