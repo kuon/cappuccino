@@ -13,22 +13,22 @@ sharedSources = sharedSources.toArray();
 // Create one set of tasks per environment per configuration
 CONFIGURATIONS.forEach(function(configName)
 {
-    var finalBuildDir = BUILD_DIR + '/' + configName + '/Objective-J',
-        intermediateBuildDir = BUILD_DIR + '/Objective-J.build/' + configName;
+    var finalBuildDir = PATH.join(BUILD_DIR, configName, 'Objective-J'),
+        intermediateBuildDir = PATH.join(BUILD_DIR, 'Objective-J.build', configName);
 
     recursiveDirectory(finalBuildDir);
     recursiveDirectory(intermediateBuildDir);
 
     ENVIRONMENTS.forEach(function(env)
     {
-        if (!FILE.statSync('Environments/' + env).isDirectory())
+        if (!FILE.statSync(PATH.join('Environments', env)).isDirectory())
             return;
 
-        var source = 'Environments/' + env + '/Objective-J.' + env + '.js',
+        var source = PATH.join('Environments', env, 'Objective-J.' + env + '.js'),
             envSources = new jake.FileList(),
             flags = ['-I.', '-IEnvironments/' + env],
-            intermediateTarget = intermediateBuildDir + '/Objective-J.' + env + '.js',
-            finalTarget = finalBuildDir + '/Objective-J.' + env + '.js';
+            intermediateTarget = PATH.join(intermediateBuildDir, 'Objective-J.' + env + '.js'),
+            finalTarget = PATH.join(finalBuildDir, 'Objective-J.' + env + '.js');
 
         if (configName === 'Debug')
             flags.push('-DDEBUG');
