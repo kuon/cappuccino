@@ -6,7 +6,7 @@ var BUILD_DIR = '../Build',
     targets = [];
 
 
-sharedSources.include('*.js');
+sharedSources.include('Source/*.js');
 sharedSources = sharedSources.toArray();
 
 
@@ -26,7 +26,7 @@ CONFIGURATIONS.forEach(function(configName)
 
         var source = PATH.join('Environments', env, 'Objective-J.' + env + '.js'),
             envSources = new jake.FileList(),
-            flags = ['-I.', '-IEnvironments/' + env],
+            flags = ['-ISource', '-IEnvironments/' + env],
             intermediateTarget = PATH.join(intermediateBuildDir, 'Objective-J.' + env + '.js'),
             finalTarget = PATH.join(finalBuildDir, 'Objective-J.' + env + '.js');
 
@@ -53,11 +53,17 @@ CONFIGURATIONS.forEach(function(configName)
         targets.push(finalTarget);
 
     });
+    task(configName, targets, function()
+    {
+        jake.cpR('Tools', finalBuildDir);
+        jake.cpR('package.json', finalBuildDir);
+    });
+
 });
 
 
 desc('Build Objective-J');
-task('default', targets, function()
+task('default', CONFIGURATIONS, function()
 {
     console.log('# Objective-J built');
 });

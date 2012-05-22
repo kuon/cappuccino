@@ -44,7 +44,7 @@ StaticResource.rootResources = function()
     return rootResources;
 };
 
-GLOBAL(objj_staticResource) = StaticResource;
+GLOBAL(objj_StaticResource) = StaticResource;
 
 function resolveStaticResource(/*StaticResource*/ aResource)
 {

@@ -1,0 +1,23 @@
+{
+   "engines" : {
+      "node" : "*"
+   },
+   "bin" : {
+      "objjc" : "./Tools/Compiler.js"
+   },
+   "version" : "0.1.0",
+   "dependencies" : {
+      "uglify-js" : ">=1.2.3",
+      "xmldom" : ">=0.1.2",
+      "optimist" : ">=0.3.4"
+   },
+   "name" : "objective-j",
+   "author" : "The Cappuccino project",
+   "description" : "Objective-J runtime and compiler",
+   "main" : "./Objective-J.NodeJS.js",
+   "keywords" : [
+      "compile"
+   ],
+   "devDependencies" : {},
+   "preferGlobal" : true
+}

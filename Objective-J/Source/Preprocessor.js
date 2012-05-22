@@ -115,7 +115,7 @@ Lexer.prototype.skip_whitespace = function(shouldMoveBackwards)
     return token;
 };
 
-GLOBAL(objj_lexer) = Lexer;
+GLOBAL(objj_Lexer) = Lexer;
 
 #define IS_NOT_EMPTY(buffer) buffer.atoms.length !== 0
 #define CONCAT(buffer, atom) buffer.atoms[buffer.atoms.length] = atom
@@ -198,7 +198,7 @@ Preprocessor.prototype.allIvarNamesForClassName = function(className)
     return names;
 };
 
-GLOBAL(objj_preprocessor) = Preprocessor;
+GLOBAL(objj_Preprocessor) = Preprocessor;
 
 Preprocessor.Flags = { };
 

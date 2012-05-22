@@ -38,7 +38,7 @@ function Executable(/*String*/ aCode, /*Array*/ fileDependencies, /*CFURL|String
     this.setCode(aCode);
 }
 
-GLOBAL(objj_executable) = Executable;
+GLOBAL(objj_Executable) = Executable;
 
 Executable.prototype.path = function()
 {

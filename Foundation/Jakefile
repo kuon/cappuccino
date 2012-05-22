@@ -13,13 +13,7 @@ framework('Foundation',
     {
         cpp: true,
         sources: sources,
-        buildPath: BUILD_DIR
+        buildDirectory: BUILD_DIR
     });
 
-// Create one preprocessing task per source file
-
-desc('Default task');
-task('default', ['cpp'], function()
-{
-    console.log('# Foundation built');
-});
+task('default', ['Foundation']);

@@ -39,7 +39,7 @@ function FileExecutable(/*CFURL|String*/ aURL)
     this._hasExecuted = NO;
 }
 
-GLOBAL(objj_fileExecutable) = FileExecutable;
+GLOBAL(objj_FileExecutable) = FileExecutable;
 
 FileExecutable.prototype = new Executable();
 
