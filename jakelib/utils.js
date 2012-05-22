@@ -41,11 +41,6 @@ global.minify = function(source, target)
     try
     {
         compressedCode = parser.parse(originalCode, true);
-        compressedCode = uglify.ast_mangle(compressedCode);
-        compressedCode = uglify.ast_squeeze(compressedCode);
-        compressedCode = uglify.gen_code(compressedCode);
-
-        FILE.writeFileSync(target, compressedCode);
     }
     catch(error)
     {
@@ -68,6 +63,11 @@ global.minify = function(source, target)
         console.log('\n');
         throw error;
     }
+
+    compressedCode = uglify.ast_mangle(compressedCode);
+    compressedCode = uglify.ast_squeeze(compressedCode);
+    compressedCode = uglify.gen_code(compressedCode);
+    FILE.writeFileSync(target, compressedCode);
 };
 
 global.recursiveDirectory = function(path)

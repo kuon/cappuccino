@@ -2,6 +2,6 @@ require('objective-j');
 
 CPLogRegister(CPLogDefault);
 
-objj_importFile('main.sj', YES);
+objj_importFile('Foundation.sj', YES);
 
 

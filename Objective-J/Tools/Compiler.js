@@ -60,8 +60,10 @@ for (var i = 0; i < argv._.length; i++)
     {
         var parser = require("uglify-js").parser,
             uglify = require("uglify-js").uglify,
-            compressedCode = parser.parse(executable.code(), true);
+            compiledCode = executable.code(),
+            compressedCode;
 
+        compressedCode = parser.parse(compiledCode);
         compressedCode = uglify.ast_mangle(compressedCode);
         compressedCode = uglify.ast_squeeze(compressedCode);
         compressedCode = uglify.gen_code(compressedCode);
