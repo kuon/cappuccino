@@ -16,7 +16,7 @@ CPDecimalMaxExponent                 =  127;
 CPDecimalMinExponent                 = -128;
 
 // Scale for no Rounding
-CPDecimalNoScale                     = 128
+CPDecimalNoScale                     = 128;
 
 // CPCalculationError enum
 CPCalculationNoError                 = 0;

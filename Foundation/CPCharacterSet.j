@@ -380,7 +380,7 @@ var _CPStringContentCharacterSetStringKey = @"_CPStringContentCharacterSetString
 {
     if (self = [super initWithCoder:aCoder])
     {
-        _string = [aCoder decodeObjectForKey:_CPStringContentCharacterSetStringKey]
+        _string = [aCoder decodeObjectForKey:_CPStringContentCharacterSetStringKey];
     }
 
     return self;

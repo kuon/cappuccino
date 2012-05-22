@@ -359,7 +359,7 @@
 
         while (index !== CPNotFound)
         {
-            _remove(_proxyObject, _removeSEL, index)
+            _remove(_proxyObject, _removeSEL, index);
             index = [theIndexes indexLessThanIndex:index];
         }
     }
@@ -373,7 +373,7 @@
 
 - (void)replaceObjectAtIndex:(unsigned)anIndex withObject:(id)anObject
 {
-    [self replaceObjectsAtIndexes:[CPIndexSet indexSetWithIndex:anIndex] withObjects:[anObject]]
+    [self replaceObjectsAtIndexes:[CPIndexSet indexSetWithIndex:anIndex] withObjects:[anObject]];
 }
 
 - (void)replaceObjectsAtIndexes:(CPIndexSet)theIndexes withObjects:(CPArray)theObjects
