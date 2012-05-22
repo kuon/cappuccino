@@ -6,7 +6,7 @@ var BUILD_DIR = '../Build',
     targets = [];
 
 
-sharedSources.include('Source/*.js');
+sharedSources.include('*.js');
 sharedSources = sharedSources.toArray();
 
 
@@ -26,7 +26,7 @@ CONFIGURATIONS.forEach(function(configName)
 
         var source = 'Environments/' + env + '/Objective-J.' + env + '.js',
             envSources = new jake.FileList(),
-            flags = ['-ISource',  '-IEnvironments/' + env],
+            flags = ['-I.', '-IEnvironments/' + env],
             intermediateTarget = intermediateBuildDir + '/Objective-J.' + env + '.js',
             finalTarget = finalBuildDir + '/Objective-J.' + env + '.js';
 
