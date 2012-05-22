@@ -407,7 +407,7 @@ Preprocessor.prototype.implementation = function(tokens, /*StringBuffer*/ aStrin
         if (tokens.skip_whitespace() != TOKEN_CLOSE_PARENTHESIS)
             throw new SyntaxError(this.error_message("*** Improper Category Definition for class \"" + class_name + "\"."));
 
-        CONCAT(buffer, "{\nvar the_class = objj_getClass(\"" + class_name + "\")\n");
+        CONCAT(buffer, "{\nvar the_class = objj_getClass(\"" + class_name + "\");\n");
         CONCAT(buffer, "if(!the_class) throw new SyntaxError(\"*** Could not find definition for class \\\"" + class_name + "\\\"\");\n");
         CONCAT(buffer, "var meta_class = the_class.isa;");
     }
