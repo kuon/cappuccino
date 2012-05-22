@@ -1,34 +1,22 @@
 require('../jakelib/utils.js');
+require('../jakelib/framework.js');
 
 var sources = new jake.FileList(),
-    BUILD_DIR = '../Build/Foundation.build',
-    cppTargets = [];
+    BUILD_DIR = '../Build';
 
-sources.include('Source/*.j');
-sources.include('Source/CPArray/*.j');
-sources.include('Source/CPPredicate/*.j');
-sources.include('Source/CPSet/*.j');
-sources = sources.toArray();
+sources.include('*.j');
+sources.include('CPArray/*.j');
+sources.include('CPPredicate/*.j');
+sources.include('CPSet/*.j');
 
-desc('Create intermediate build directory');
-directory(BUILD_DIR);
+framework('Foundation',
+    {
+        cpp: true,
+        sources: sources,
+        buildPath: BUILD_DIR
+    });
 
 // Create one preprocessing task per source file
-sources.forEach(function(source)
-{
-    var flags = ['-ISource'],
-        target = BUILD_DIR + '/' + source.replace(/^.*\//, '');
-    cppTargets.push(target);
-
-    desc('Preprocess source file:' + source);
-    file(target, [BUILD_DIR, source], function ()
-    {
-        cpp(source, target, flags);
-    }, {async: true});
-});
-
-desc('Preprocess source files');
-task('cpp', cppTargets);
 
 desc('Default task');
 task('default', ['cpp'], function()
