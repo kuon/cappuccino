@@ -1,14 +1,26 @@
-global.CONFIGURATIONS = ['Debug', 'Release'];
+global.CONFIGURATIONS = ['Debug']; //, 'Release'];
 global.FILE = require('fs');
 global.PATH = require('path');
 
 global.cpp = function(source, target, flags)
 {
-    cmd = ['gcc', '-w', '-E', '-x c', '-P'].concat(flags).concat([source, '-o', target]).join(' ');
+    var cmd = ['gcc', '-w', '-E', '-x c', '-P'].concat(flags).concat([source, '-o', target]).join(' ');
 
     jake.exec([cmd], function()
     {
         console.log('[CPP] %s', source);
+        complete();
+    }, {stdout:true, stderr:true});
+};
+
+global.compile = function(sources, target)
+{
+    if (typeof(sources) === 'string')
+        sources = [sources];
+
+    var cmd = ['objjc'].concat(sources).concat(['-o', target]).join(' ');
+    jake.exec([cmd], function()
+    {
         complete();
     }, {stdout:true, stderr:true});
 };

@@ -1,15 +1,23 @@
 
 global.framework = function(/* String */ name, /* Object */ options)
 {
-    var intermediateTargets = [],
+    var targets = [],
+        infoPlist = 'Info.plist',
         buildDirectory = options.buildDirectory;
 
     sources = options.sources.toArray();
 
     CONFIGURATIONS.forEach(function(configName)
     {
-        var intermediateBuildDir = PATH.join(buildDirectory, name + '.build/', configName);
+        var intermediateBuildDir = PATH.join(buildDirectory, name + '.build/', configName),
+            intermediateTargets = [],
+            finalBuildDir = PATH.join(buildDirectory, configName, name),
+            staticTarget = PATH.join(finalBuildDir, name + '.sj'),
+            infoTarget = PATH.join(finalBuildDir, infoPlist);
+
+
         recursiveDirectory(intermediateBuildDir);
+        recursiveDirectory(finalBuildDir);
 
         sources.forEach(function(source)
         {
@@ -17,9 +25,8 @@ global.framework = function(/* String */ name, /* Object */ options)
                 filename = PATH.basename(source),
                 intermediateTarget = PATH.join(intermediateBuildDir, filename);
 
-            intermediateTargets.push(intermediateTarget);
 
-            file(intermediateTarget, [intermediateBuildDir, source], function ()
+            file(intermediateTarget, [intermediateBuildDir, source], function()
             {
                 if (options.cpp)
                     cpp(source, intermediateTarget, flags);
@@ -32,11 +39,24 @@ global.framework = function(/* String */ name, /* Object */ options)
 
             intermediateTargets.push(intermediateTarget);
 
-
         });
+
+        file(staticTarget, [finalBuildDir].concat(intermediateTargets), function()
+        {
+            compile(intermediateTargets, staticTarget);
+        }, {async: true});
+
+        targets.push(staticTarget);
+
+        // TODO: more to do with the plist
+        file(infoTarget, [finalBuildDir, infoPlist], function()
+        {
+            jake.cpR(infoPlist, infoTarget);
+        });
+        targets.push(infoTarget);
     });
 
     desc('Build framework ' + name);
-    task(name, intermediateTargets);
+    task(name, targets);
 
 };
