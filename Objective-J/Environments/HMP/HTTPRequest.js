@@ -70,7 +70,7 @@ window._HTTPRequestResolver = function()
             {
                 self.responseText = status.content;
                 self._responseHeaders = {"content-type":status.contentType};
-                self.status = 200;
+                self.status = 0;
             }
             else
             {

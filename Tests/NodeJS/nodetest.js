@@ -2,6 +2,8 @@ require('objective-j');
 
 CPLogRegister(CPLogDefault);
 
-objj_importFile('Foundation.sj', YES);
+OBJJ_INCLUDE_PATHS = ['../../Build/Release'];
+
+objj_importFile('main.j', YES);
 
 

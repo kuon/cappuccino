@@ -63,7 +63,4 @@ CONFIGURATIONS.forEach(function(configName)
 
 
 desc('Build Objective-J');
-task('default', CONFIGURATIONS, function()
-{
-    console.log('# Objective-J built');
-});
+task('default', CONFIGURATIONS);

@@ -41,6 +41,7 @@ if (!argv._.length)
 
 var compiledFiles = [];
 
+
 for (var i = 0; i < argv._.length; i++)
 {
     var filePath = argv._[i],
@@ -52,6 +53,8 @@ for (var i = 0; i < argv._.length; i++)
         console.error('File not found: ' + filePath);
         return;
     }
+
+    console.log('[OBJC] %s', filePath);
 
     fileContents = FILE.readFileSync(filePath).toString();
 
@@ -84,7 +87,7 @@ if (!argv.unmarked)
 
 compiledFiles.forEach(function(compiledFile)
 {
-    var relativePath = compiledFile.path,
+    var relativePath = PATH.basename(compiledFile.path),
         contents = compiledFile.contents;
 
     if (!argv.unmarked)

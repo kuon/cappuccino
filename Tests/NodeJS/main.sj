@@ -1,1 +1,0 @@
-objj_executeFile("Foundation/Foundation.j",NO);var o="Hello world",test=objj_msgSend(CPArray,"new");objj_msgSend(test,"addObject:",o),CPLog("In main.j"),CPLog(objj_msgSend(test,"description")),objj_msgSend(CPTimer,"scheduledTimerWithTimeInterval:callback:repeats:",1,function(){CPLog("Timer")},YES)
