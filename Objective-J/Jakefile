@@ -62,5 +62,17 @@ CONFIGURATIONS.forEach(function(configName)
 });
 
 
+task('npm-link', ['objective-j'], function()
+{
+    var cmd = 'cd ' + BUILD_DIR + '/Release/Objective-J/ && npm link';
+    jake.exec([cmd], function()
+    {
+        console.log('[NPM LINK] Objective-J');
+        complete();
+    }, {stdout:true, stderr:true});
+}, {async:true});
+
 desc('Build Objective-J');
-task('default', CONFIGURATIONS);
+task('objective-j', CONFIGURATIONS);
+
+task('default', ['objective-j', 'npm-link']);

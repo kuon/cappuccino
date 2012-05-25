@@ -1,3 +1,4 @@
+require(__dirname + '/bundle.js');
 
 global.framework = function(/* String */ name, /* Object */ options)
 {

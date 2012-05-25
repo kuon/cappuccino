@@ -1,22 +1,33 @@
 require('./jakelib/utils.js');
 
-var buildDirectories = [];
 
-directory('Build');
-
-CONFIGURATIONS.forEach(function(configName)
+file('node_modules/uglify-js', function()
 {
-    var dirName = 'Build/' + configName;
+    var cmd = 'npm install uglify-js';
+    jake.exec([cmd], function()
+    {
+        console.log('[NPM LINK] Objective-J');
+        complete();
+    }, {stdout:true, stderr:true});
+}, {async:true});
 
-    directory(dirName, ['Build']);
-    buildDirectories.push(dirName);
-});
+task('required-packages', ['node_modules/uglify-js']);
 
 desc('Objective-J runtime');
-subjake('Objective-J', buildDirectories);
+subjake('Objective-J', ['required-packages']);
+
+task('npm-objective-j', ['Objective-J'], function()
+{
+    var cmd = 'npm link objective-j';
+    jake.exec([cmd], function()
+    {
+        console.log('[NPM LINK] Objective-J');
+        complete();
+    }, {stdout:true, stderr:true});
+}, {async:true});
 
 desc('Foundation framework');
-subjake('Foundation', ['Objective-J']);
+subjake('Foundation', ['npm-objective-j']);
 
 desc('Build cappuccino');
 task('default', ['Foundation']);

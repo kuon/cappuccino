@@ -1,4 +1,4 @@
-global.CONFIGURATIONS = ['Debug']; //, 'Release'];
+global.CONFIGURATIONS = ['Debug', 'Release'];
 global.FILE = require('fs');
 global.PATH = require('path');
 
