@@ -186,4 +186,4 @@ function _CPLogInitPopup(logWindow)
 }
 
 
-CPLogDefault = (typeof window === "object" && window.console) ? CPLogConsole : CPLogPopup;
+GLOBAL(CPLogDefault) = (typeof window === "object" && window.console) ? CPLogConsole : CPLogPopup;

@@ -17,9 +17,18 @@
 #define CONFIG_SET_INTERVAL global.setInterval
 #define CONFIG_CLEAR_INTERVAL global.clearInterval
 
-#include "MainBundle.js"
-#include "XML.js"
-#include "HTTPRequest.js"
-#include "Objective-J.js"
-#include "CPLog+Loggers.js"
-#include "CFPropertyList+File.js"
+
+(function()
+{
+    if (global.OBJJ_LOADED)
+        return;
+
+    global.OBJJ_LOADED = true;
+
+    #include "MainBundle.js"
+    #include "XML.js"
+    #include "HTTPRequest.js"
+    #include "Objective-J.js"
+    #include "CPLog+Loggers.js"
+    #include "CFPropertyList+File.js"
+})();

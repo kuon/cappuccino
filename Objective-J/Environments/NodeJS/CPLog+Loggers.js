@@ -37,4 +37,4 @@ GLOBAL(CPLogPrint) = function(aString, aLevel, aTitle, aFormatter)
     console.log(CPLogColorize(formatter(aString, aLevel, aTitle), aLevel));
 };
 
-CPLogDefault = CPLogPrint;
+GLOBAL(CPLogDefault) = CPLogPrint;

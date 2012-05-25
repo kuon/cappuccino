@@ -13,6 +13,6 @@ GLOBAL(CPLogPrint) = function(aString, aLevel, aTitle, aFormatter)
     alert(formatter(aString, aLevel, aTitle));
 };
 
-CPLogDefault = CPLogPrint;
+GLOBAL(CPLogDefault) = CPLogPrint;
 
 

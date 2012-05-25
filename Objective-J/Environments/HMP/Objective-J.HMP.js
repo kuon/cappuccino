@@ -17,9 +17,17 @@
 #define CONFIG_SET_INTERVAL window.setInterval
 #define CONFIG_CLEAR_INTERVAL window.clearInterval
 
-#include "MainBundle.js"
-#include "XML.js"
-#include "HTTPRequest.js"
-#include "Objective-J.js"
-#include "CPLog+Loggers.js"
+(function()
+{
+    if (window.OBJJ_LOADED)
+        return;
+
+    window.OBJJ_LOADED = true;
+
+    #include "MainBundle.js"
+    #include "XML.js"
+    #include "HTTPRequest.js"
+    #include "Objective-J.js"
+    #include "CPLog+Loggers.js"
+})();
 
