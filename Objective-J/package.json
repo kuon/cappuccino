@@ -3,7 +3,7 @@
       "node" : "*"
    },
    "bin" : {
-      "objjc" : "./Tools/Compiler.js"
+      "objjc" : "./compiler.js"
    },
    "version" : "0.1.0",
    "dependencies" : {

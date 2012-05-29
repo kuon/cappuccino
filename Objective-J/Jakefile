@@ -55,7 +55,8 @@ CONFIGURATIONS.forEach(function(configName)
     });
     task(configName, targets, function()
     {
-        jake.cpR('Tools', finalBuildDir);
+        jake.cpR('Tools/Compiler.js', finalBuildDir + '/compiler.js');
+        jake.cpR('Tools/Tasks.js', finalBuildDir + '/tasks.js');
         jake.cpR('package.json', finalBuildDir);
     });
 
