@@ -1,18 +1,21 @@
 require('../jakelib/utils.js');
+var objjTasks = require('objective-j/tasks');
+
+
 require('../jakelib/framework.js');
 
-var sources = new jake.FileList(),
+var sourcePaths = new jake.FileList(),
     BUILD_DIR = '../Build';
 
-sources.include('*.j');
-sources.include('CPArray/*.j');
-sources.include('CPPredicate/*.j');
-sources.include('CPSet/*.j');
+sourcePaths.include('*.j');
+sourcePaths.include('CPArray/*.j');
+sourcePaths.include('CPPredicate/*.j');
+sourcePaths.include('CPSet/*.j');
 
 framework('Foundation',
     {
         cpp: true,
-        sources: sources,
+        sourcePaths: sourcePaths,
         buildDirectory: BUILD_DIR
     });
 

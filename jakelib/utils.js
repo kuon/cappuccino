@@ -2,25 +2,13 @@ global.CONFIGURATIONS = ['Debug', 'Release'];
 global.FILE = require('fs');
 global.PATH = require('path');
 
-global.cpp = function(source, target, flags)
+global.cpp = function(sourcePath, targetPath, flags)
 {
-    var cmd = ['gcc', '-w', '-E', '-x c', '-P'].concat(flags).concat([source, '-o', target]).join(' ');
+    var cmd = ['gcc', '-w', '-E', '-x c', '-P'].concat(flags).concat([sourcePath, '-o', targetPath]).join(' ');
 
     jake.exec([cmd], function()
     {
-        console.log('[CPP] %s', source);
-        complete();
-    }, {stdout:true, stderr:true});
-};
-
-global.compile = function(sources, target)
-{
-    if (typeof(sources) === 'string')
-        sources = [sources];
-
-    var cmd = ['objjc'].concat(sources).concat(['-o', target]).join(' ');
-    jake.exec([cmd], function()
-    {
+        console.log('[CPP] %s', PATH.basename(sourcePath));
         complete();
     }, {stdout:true, stderr:true});
 };
@@ -39,16 +27,16 @@ global.subjake = function(folder, deps)
     }, {async: true});
 };
 
-global.minify = function(source, target)
+global.minify = function(sourcePath, targetPath)
 {
     var parser = require("uglify-js").parser,
         uglify = require("uglify-js").uglify,
         originalCode,
         compressedCode;
 
-    originalCode = FILE.readFileSync(source).toString();
+    originalCode = FILE.readFileSync(sourcePath).toString();
 
-    console.log('[MINIFY] %s', source);
+    console.log('[MINIFY] %s', PATH.basename(sourcePath));
 
     try
     {
@@ -59,7 +47,7 @@ global.minify = function(source, target)
         var errorLines = originalCode.split('\n').slice(error.line - 2, error.line),
             gutterWidth = error.line.toString().length + 3;
 
-        console.log('\nError while processing ' + source + '\n');
+        console.log('\nError while processing ' + sourcePath + '\n');
 
         for (var i = 0; i < errorLines.length; i++)
         {
@@ -79,7 +67,7 @@ global.minify = function(source, target)
     compressedCode = uglify.ast_mangle(compressedCode);
     compressedCode = uglify.ast_squeeze(compressedCode);
     compressedCode = uglify.gen_code(compressedCode);
-    FILE.writeFileSync(target, compressedCode);
+    FILE.writeFileSync(targetPath, compressedCode);
 };
 
 global.recursiveDirectory = function(path)
