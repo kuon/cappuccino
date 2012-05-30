@@ -149,7 +149,7 @@ var CPStringUIDs = new CFMutableDictionary(),
         [CPException raise:CPInvalidArgumentException
                     reason:"initWithFormat: the format can't be 'nil'"];
 
-    self = ObjectiveJ.sprintf.apply(this, Array.prototype.slice.call(arguments, 2));
+    self = objj_sprintf.apply(this, Array.prototype.slice.call(arguments, 2));
     return self;
 }
 
@@ -165,7 +165,7 @@ var CPStringUIDs = new CFMutableDictionary(),
         [CPException raise:CPInvalidArgumentException
                     reason:"initWithFormat: the format can't be 'nil'"];
 
-    return ObjectiveJ.sprintf.apply(this, Array.prototype.slice.call(arguments, 2));
+    return objj_sprintf.apply(this, Array.prototype.slice.call(arguments, 2));
 }
 
 /*!
