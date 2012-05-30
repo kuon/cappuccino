@@ -41,7 +41,7 @@ exports.compile = function(/* String */ source, /* Object */ options)
 
 };
 
-exports.compileFile = function(/* String */ sourcePath, /* String */ targetPath)
+exports.compileFile = function(/* String */ targetPath, /* String */ sourcePath)
 {
     var buffer = FILE.readFileSync(sourcePath).toString();
 
@@ -52,30 +52,35 @@ exports.compileFile = function(/* String */ sourcePath, /* String */ targetPath)
     FILE.writeFileSync(targetPath, buffer);
 };
 
-exports.convertPropertyList = function(/* String */ plistData, /* int */ destinationFormat, /* Function */ modifierFunction)
+exports.readPropertyList = function(/* String */ plistPath)
 {
-    var plist = CFPropertyList.propertyListFromString(plistData);
+    var plistData = FILE.readFileSync(plistPath).toString(),
+        plist = CFPropertyList.propertyListFromString(plistData);
 
-    if (plist)
+    if (!plist)
         throw "Cannot read property list";
 
+    return plist;
+};
+
+exports.writePropertyList = function(/* String */ plistPath, /* CFPropertyList */ plist, /* int */ destinationFormat)
+{
     if (!destinationFormat)
         destinationFormat = CFPropertyList.Format280North_v1_0;
 
-    if (modifierFunction)
-        plist = modifierFunction(plist);
-
-    return CFPropertyList.stringFromPropertyList(plist, destinationFormat);
+    var buffer = CFPropertyList.stringFromPropertyList(plist, destinationFormat);
+    FILE.writeFileSync(plistPath, buffer);
 };
 
-exports.createStaticArchive = function(/* String */ outputPath, /* Array */ codePaths, /* String */ relativeToPath)
+
+exports.makeStaticArchive = function(/* String */ outputPath, /* Array */ codePaths, /* String */ relativeToPath)
 {
     var buffer = [];
     buffer.push("@STATIC;1.0;");
 
     codePaths.forEach(function(codePath)
     {
-        var relativePath = PATH.basename(codePath),
+        var relativePath = PATH.basename(codePath).replace(/\.sj$/, '.j'),
             contents = FILE.readFileSync(codePath).toString();
 
         buffer.push("p;" + relativePath.length + ";" + relativePath);
@@ -87,6 +92,10 @@ exports.createStaticArchive = function(/* String */ outputPath, /* Array */ code
 exports.decompile = function(/* String */ compiledCode, /* Object */ options)
 {
     // Decompile marked string
+};
+
+exports.decomposeStaticArchive = function(/* String */ outputDirectory, /* String */ archivePath)
+{
 };
 
 

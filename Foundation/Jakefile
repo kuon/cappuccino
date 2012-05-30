@@ -1,8 +1,4 @@
-require('../jakelib/utils.js');
-var objjTasks = require('objective-j/tasks');
-
-
-require('../jakelib/framework.js');
+require('Objective-J/Jake');
 
 var sourcePaths = new jake.FileList(),
     BUILD_DIR = '../Build';
@@ -12,11 +8,12 @@ sourcePaths.include('CPArray/*.j');
 sourcePaths.include('CPPredicate/*.j');
 sourcePaths.include('CPSet/*.j');
 
-framework('Foundation',
+tasks.makeFramework('Foundation', nil,
     {
-        cpp: true,
+        preprocess: true,
         sourcePaths: sourcePaths,
-        buildDirectory: BUILD_DIR
+        buildDirectory: BUILD_DIR,
+        installNodePackage: true
     });
 
 task('default', ['Foundation']);

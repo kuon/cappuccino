@@ -1,4 +1,4 @@
-require('./jakelib/utils.js');
+require('./Objective-J/Jake/Base');
 
 
 file('node_modules/uglify-js', function()
@@ -14,20 +14,10 @@ file('node_modules/uglify-js', function()
 task('required-packages', ['node_modules/uglify-js']);
 
 desc('Objective-J runtime');
-subjake('Objective-J', ['required-packages']);
-
-task('npm-objective-j', ['Objective-J'], function()
-{
-    var cmd = 'npm link objective-j';
-    jake.exec([cmd], function()
-    {
-        console.log('[NPM LINK] Objective-J');
-        complete();
-    }, {stdout:true, stderr:true});
-}, {async:true});
+tasks.subjake('Objective-J', ['required-packages']);
 
 desc('Foundation framework');
-subjake('Foundation', ['npm-objective-j']);
+tasks.subjake('Foundation', ['Objective-J']);
 
 desc('Build cappuccino');
 task('default', ['Foundation']);

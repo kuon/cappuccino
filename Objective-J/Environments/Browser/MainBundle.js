@@ -113,6 +113,6 @@ window._mainBundleResolver = function()
     });
 
     if (typeof OBJJ_AUTO_BOOTSTRAP === "undefined" || OBJJ_AUTO_BOOTSTRAP)
-        resolveMainBundleURL();
+        afterDocumentLoad(resolveMainBundleURL);
     return mainBundleURL;
 };

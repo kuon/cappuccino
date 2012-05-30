@@ -87,7 +87,7 @@ if (!argv.unmarked)
 
 compiledFiles.forEach(function(compiledFile)
 {
-    var relativePath = PATH.basename(compiledFile.path),
+    var relativePath = PATH.basename(compiledFile.path).replace(/\.sj$/, '.j'),
         contents = compiledFile.contents;
 
     if (!argv.unmarked)
