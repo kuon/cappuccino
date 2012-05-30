@@ -1,0 +1,12 @@
+{
+   "engines" : {
+      "node" : "*"
+   },
+   "version" : "0.1.0",
+   "name" : "Cappuccino-Foundation",
+   "author" : "The Cappuccino project",
+   "description" : "Cappuccino Foundation framework",
+   "devDependencies" : {},
+   "preferGlobal" : true
+}
+

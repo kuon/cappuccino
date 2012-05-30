@@ -1,4 +1,4 @@
-require('../jakelib/utils.js');
+require('./Jake/Base');
 
 var BUILD_DIR = '../Build',
     ENVIRONMENTS = FILE.readdirSync('Environments'),
@@ -13,18 +13,16 @@ sharedSources = sharedSources.toArray();
 // Create one set of tasks per environment per configuration
 CONFIGURATIONS.forEach(function(configName)
 {
-    var finalBuildDir = PATH.join(BUILD_DIR, configName, 'Objective-J'),
+    var finalBuildDir = PATH.join(BUILD_DIR, configName, 'Objective-J' );
         intermediateBuildDir = PATH.join(BUILD_DIR, 'Objective-J.build', configName);
 
-    recursiveDirectory(finalBuildDir);
-    recursiveDirectory(intermediateBuildDir);
 
     ENVIRONMENTS.forEach(function(env)
     {
         if (!FILE.statSync(PATH.join('Environments', env)).isDirectory())
             return;
 
-        var source = PATH.join('Environments', env, 'Objective-J.' + env + '.js'),
+        var sourcePath = PATH.join('Environments', env, 'Objective-J.' + env + '.js'),
             envSources = new jake.FileList(),
             flags = ['-ISource', '-IEnvironments/' + env],
             intermediateTarget = PATH.join(intermediateBuildDir, 'Objective-J.' + env + '.js'),
@@ -36,43 +34,35 @@ CONFIGURATIONS.forEach(function(configName)
         envSources.include('Environments/' + env + '/*');
         envSources = envSources.toArray();
 
+        tasks.preprocess(intermediateTarget, sourcePath, sharedSources.concat(envSources), {flags:flags});
 
-        file(intermediateTarget, [intermediateBuildDir].concat(sharedSources).concat(envSources), function()
-        {
-            cpp(source, intermediateTarget, flags);
-        }, {async: true});
-
-        file(finalTarget, [intermediateTarget, finalBuildDir], function()
-        {
-            if (configName === 'Release')
-                minify(intermediateTarget, finalTarget);
-            else
-                jake.cpR(intermediateTarget, finalTarget);
-        });
+        if (configName === 'Release')
+            tasks.minify(finalTarget, intermediateTarget);
+        else
+            tasks.copy(finalTarget, intermediateTarget);
 
         targets.push(finalTarget);
 
     });
-    task(configName, targets, function()
-    {
-        jake.cpR('Tools', finalBuildDir);
-        jake.cpR('package.json', finalBuildDir);
-    });
+
 
 });
 
 
-task('npm-link', ['objective-j'], function()
+var packageDir = PATH.join(BUILD_DIR, 'Packages', 'Objective-J'),
+    toolPaths = new jake.FileList();
+
+toolPaths.include('Tools/*.js');
+toolPaths.include('Jake/*.js');
+
+toolPaths.toArray().forEach(function(toolPath)
 {
-    var cmd = 'cd ' + BUILD_DIR + '/Release/Objective-J/ && npm link';
-    jake.exec([cmd], function()
-    {
-        console.log('[NPM LINK] Objective-J');
-        complete();
-    }, {stdout:true, stderr:true});
-}, {async:true});
+    var toolTarget = PATH.join(packageDir, PATH.dirname(toolPath), PATH.basename(toolPath));
+    tasks.copy(toolTarget, toolPath);
+    targets.push(toolTarget);
+});
 
-desc('Build Objective-J');
-task('objective-j', CONFIGURATIONS);
+tasks.nodePackage('npm-package', targets, {buildDirectory: BUILD_DIR, productName: 'Objective-J', install: true});
 
-task('default', ['objective-j', 'npm-link']);
+
+task('default', ['npm-package']);

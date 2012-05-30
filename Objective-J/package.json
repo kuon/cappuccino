@@ -3,7 +3,7 @@
       "node" : "*"
    },
    "bin" : {
-      "objjc" : "./Tools/Compiler.js"
+      "objjc" : "Tools/Compiler.js"
    },
    "version" : "0.1.0",
    "dependencies" : {
@@ -11,10 +11,10 @@
       "xmldom" : ">=0.1.2",
       "optimist" : ">=0.3.4"
    },
-   "name" : "objective-j",
+   "name" : "Objective-J",
    "author" : "The Cappuccino project",
    "description" : "Objective-J runtime and compiler",
-   "main" : "./Objective-J.NodeJS.js",
+   "main" : "Release/Objective-J.NodeJS.js",
    "keywords" : [
       "compile"
    ],
