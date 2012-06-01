@@ -13,7 +13,7 @@ global.tasks.subjake = function(folder, dependencies)
 
     task(folder, dependencies, function()
     {
-        jake.exec(['cd ' + folder + ' && jake'], function()
+        jake.exec(['cd ' + folder + ' && jake --trace'], function()
         {
             complete();
         }, {stdout:true, stderr:true});

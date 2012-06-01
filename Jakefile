@@ -6,7 +6,7 @@ file('node_modules/uglify-js', function()
     var cmd = 'npm install uglify-js';
     jake.exec([cmd], function()
     {
-        console.log('[NPM LINK] Objective-J');
+        console.log('[NPM LINK] uglify-js');
         complete();
     }, {stdout:true, stderr:true});
 }, {async:true});
@@ -16,8 +16,18 @@ task('required-packages', ['node_modules/uglify-js']);
 desc('Objective-J runtime');
 tasks.subjake('Objective-J', ['required-packages']);
 
+file('node_modules/Objective-J', ['Objective-J'], function()
+{
+    var cmd = 'npm link Objective-J';
+    jake.exec([cmd], function()
+    {
+        console.log('[NPM LINK] Objective-J');
+        complete();
+    }, {stdout:true, stderr:true});
+}, {async:true});
+
 desc('Foundation framework');
-tasks.subjake('Foundation', ['Objective-J']);
+tasks.subjake('Foundation', ['node_modules/Objective-J']);
 
 desc('Build cappuccino');
 task('default', ['Foundation']);
