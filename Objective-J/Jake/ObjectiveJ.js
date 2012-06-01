@@ -4,7 +4,7 @@
 
 require(require('path').join(__dirname, 'Base'));
 
-global.OBJJ = require('Objective-j/Tools/Utils');
+global.OBJJ = require('Objective-J/Tools/Utils');
 
 global.tasks.makeInfoPlist = function(/* String */ targetPath, /* Array */ dependencies, /* Object */ options)
 {
