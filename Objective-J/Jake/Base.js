@@ -144,7 +144,8 @@ global.tasks.nodePackage = function(taskName, dependencies, options)
 
         CONFIGURATIONS.forEach(function(configName)
         {
-            jake.cpR(PATH.join(buildDir, configName, productName), PATH.join(packageDir, configName));
+            jake.mkdirP(PATH.join(packageDir, configName));
+            jake.cpR(PATH.join(buildDir, configName, productName), PATH.join(packageDir, configName, productName));
         });
         jake.cpR('package.json', packageDir);
     });

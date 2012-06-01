@@ -65,7 +65,7 @@ global.tasks.makeStaticArchive = function(/* String */ targetPath, /* Array */ s
     file(targetPath, dependencies, function()
     {
         console.log('[STATIC] %s', PATH.basename(targetPath));
-        OBJJ.makeStaticArchive(targetPath, sourcePaths);
+        OBJJ.makeStaticArchive(targetPath, sourcePaths, options.relativeToPath);
     });
 
 };
@@ -93,7 +93,7 @@ global.tasks.makeBundle = function(/* String */ name, /* Array */ dependencies, 
 
         sourcePaths.forEach(function(sourcePath)
         {
-            var filename = PATH.basename(sourcePath),
+            var filename = options.flattensSource ? PATH.basename(sourcePath) : sourcePath,
                 preprocessPath = PATH.join(intermediateBuildDir, filename),
                 compiledPath = preprocessPath.replace(/\.j$/, '.sj');
 
@@ -111,7 +111,7 @@ global.tasks.makeBundle = function(/* String */ name, /* Array */ dependencies, 
             compiledPaths.push(compiledPath);
         });
 
-        tasks.makeStaticArchive(staticArchivePath, compiledPaths);
+        tasks.makeStaticArchive(staticArchivePath, compiledPaths, [], {relativeToPath: intermediateBuildDir});
         targets.push(staticArchivePath);
 
         var infoPlistOptions =

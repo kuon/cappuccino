@@ -20,11 +20,6 @@
 
 (function()
 {
-    if (window.OBJJ_LOADED)
-        return;
-
-    window.OBJJ_LOADED = true;
-
     #include "MainBundle.js"
     #include "XML.js"
     #include "HTTPRequest.js"

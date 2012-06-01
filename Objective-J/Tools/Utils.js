@@ -1,7 +1,7 @@
 var PATH = require('path'),
     FILE = require('fs');
 
-require('objective-j');
+require('Objective-J');
 
 /*!
     @defgroup objective-j/tasks Objective-J tasks
@@ -80,10 +80,11 @@ exports.makeStaticArchive = function(/* String */ outputPath, /* Array */ codePa
 
     codePaths.forEach(function(codePath)
     {
-        var relativePath = PATH.basename(codePath).replace(/\.sj$/, '.j'),
+        var relativePath = relativeToPath ? PATH.relative(relativeToPath, codePath) : PATH.basename(codePath),
+            headerPath = relativePath.replace(/\.sj$/, '.j'),
             contents = FILE.readFileSync(codePath).toString();
 
-        buffer.push("p;" + relativePath.length + ";" + relativePath);
+        buffer.push("p;" + headerPath.length + ";" + headerPath);
         buffer.push("t;" + contents.length + ";" + contents);
     });
     FILE.writeFileSync(outputPath, buffer.join(''));

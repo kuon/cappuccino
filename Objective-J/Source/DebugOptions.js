@@ -7,5 +7,7 @@
  * Licence and copyright in the LICENCE file.
  ***/
 
-#define DEPENDENCY_LOGGING      0
-#define EXECUTION_LOGGING       0
+#ifdef DEBUG
+#define DEPENDENCY_LOGGING
+#define EXECUTION_LOGGING
+#endif

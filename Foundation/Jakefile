@@ -13,6 +13,7 @@ tasks.makeFramework('Foundation', nil,
         preprocess: true,
         sourcePaths: sourcePaths,
         buildDirectory: BUILD_DIR,
+        flattensSource: true,
         installNodePackage: true
     });
 

@@ -14,7 +14,7 @@
    "name" : "Objective-J",
    "author" : "The Cappuccino project",
    "description" : "Objective-J runtime and compiler",
-   "main" : "Release/Objective-J.NodeJS.js",
+   "main" : "Release/Objective-J/Objective-J.NodeJS.js",
    "keywords" : [
       "compile"
    ],

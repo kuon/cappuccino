@@ -60,8 +60,17 @@ window._HTTPRequestResolver = function()
     {
         var self = this;
 
+        self._timeoutTimer = null;
+        self._timedOut = false;
+
         var callback = function(status)
         {
+            if (self._timeoutTimer);
+                window.clearTimeout(self._timeoutTimer);
+
+            if (self._timedOut)
+                return;
+
             if (self._error)
             {
                 self.status = 503;
@@ -76,8 +85,19 @@ window._HTTPRequestResolver = function()
             {
                 self.status = 503;
             }
+
             self.setState(self.DONE);
         };
+
+        if (self._URL.match(/^\/./))
+        {
+            self._timeoutTimer = window.setTimeout(function()
+            {
+                callback({success:false});
+                self._timedOut = true;
+            }, 10);
+        }
+
         if (this._method == 'GET')
         {
             this.setState(this.LOADING);

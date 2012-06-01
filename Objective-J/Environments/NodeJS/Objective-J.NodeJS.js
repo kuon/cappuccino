@@ -20,11 +20,6 @@
 
 (function()
 {
-    if (global.OBJJ_LOADED)
-        return;
-
-    global.OBJJ_LOADED = true;
-
     #include "MainBundle.js"
     #include "XML.js"
     #include "HTTPRequest.js"

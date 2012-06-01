@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-require('objective-j');
+require('Objective-J');
 
 var OPTIMIST = require('optimist'),
     PATH = require('path'),
