@@ -180,3 +180,23 @@ function determineAndDispatchHTTPRequestEvents(/*CFHTTPRequest*/ aRequest)
         eventDispatcher.dispatchEvent({ type:readyStates[aRequest.readyState()], request:aRequest});
 }
 
+function FileRequest(/*CFURL*/ aURL, onsuccess, onfailure)
+{
+    var request = new CFHTTPRequest();
+
+    if (OBJJ_ASYNCLOADER)
+    {
+        request.onsuccess = Asynchronous(onsuccess);
+        request.onfailure = Asynchronous(onfailure);
+    }
+    else
+    {
+        request.onsuccess = onsuccess;
+        request.onfailure = onfailure;
+    }
+
+    request.open("GET", aURL.absoluteString(), OBJJ_ASYNCLOADER);
+    request.send("");
+}
+
+GLOBAL(OBJJ_ASYNCLOADER) = YES;

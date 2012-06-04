@@ -38,3 +38,7 @@ GLOBAL(CPLogPrint) = function(aString, aLevel, aTitle, aFormatter)
 };
 
 GLOBAL(CPLogDefault) = CPLogPrint;
+
+#ifdef DEBUG
+CPLogRegister(CPLogDefault);
+#endif

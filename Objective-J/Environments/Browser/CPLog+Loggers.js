@@ -187,3 +187,7 @@ function _CPLogInitPopup(logWindow)
 
 
 GLOBAL(CPLogDefault) = (typeof window === "object" && window.console) ? CPLogConsole : CPLogPopup;
+
+#ifdef DEBUG
+CPLogRegister(CPLogDefault);
+#endif

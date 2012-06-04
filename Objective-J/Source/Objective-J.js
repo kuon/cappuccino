@@ -25,7 +25,6 @@
 #include "EventDispatcher.js"
 #include "CFXML.js"
 #include "CFHTTPRequest.js"
-#include "FileLoader.js"
 #include "CFPropertyList.js"
 #include "CFDictionary.js"
 #include "CFData.js"
