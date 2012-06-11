@@ -1,6 +1,6 @@
 require('./Objective-J/Jake/Base');
 
-
+// Required packages (bootstrap)
 file('node_modules/uglify-js', function()
 {
     var cmd = 'npm install uglify-js';
@@ -13,9 +13,11 @@ file('node_modules/uglify-js', function()
 
 task('required-packages', ['node_modules/uglify-js']);
 
+
 desc('Objective-J runtime');
 tasks.subjake('Objective-J', ['required-packages']);
 
+// Link Objective-J locally to be used for frameworks compilation and test runs
 file('node_modules/Objective-J', ['Objective-J'], function()
 {
     var cmd = 'npm link Objective-J';
