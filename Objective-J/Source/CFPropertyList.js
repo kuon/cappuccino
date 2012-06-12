@@ -22,6 +22,7 @@ GLOBAL(CFPropertyList) = function()
 // We are really liberal when accepting DOCTYPEs.
 CFPropertyList.DTDRE = /^\s*(?:<\?\s*xml\s+version\s*=\s*\"1.0\"[^>]*\?>\s*)?(?:<\!DOCTYPE[^>]*>\s*)?/i;
 CFPropertyList.XMLRE = /^\s*(?:<\?\s*xml\s+version\s*=\s*\"1.0\"[^>]*\?>\s*)?(?:<\!DOCTYPE[^>]*>\s*)?<\s*plist[^>]*\>/i;
+CFPropertyList.JSONRE = /^\s*{[\s\S]*}\s*$/;
 
 CFPropertyList.FormatXMLDTD = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">";
 CFPropertyList.Format280NorthMagicNumber = "280NPLIST";
@@ -32,6 +33,7 @@ CFPropertyList.FormatOpenStep         = 1,
 CFPropertyList.FormatXML_v1_0         = 100,
 CFPropertyList.FormatBinary_v1_0      = 200,
 CFPropertyList.Format280North_v1_0    = -1000;
+CFPropertyList.FormatJSON_v1_0        = 400;
 
 CFPropertyList.sniffedFormatOfString = function(/*String*/ aString)
 {
@@ -41,6 +43,9 @@ CFPropertyList.sniffedFormatOfString = function(/*String*/ aString)
 
     if (aString.substr(0, CFPropertyList.Format280NorthMagicNumber.length) === CFPropertyList.Format280NorthMagicNumber)
        return CFPropertyList.Format280North_v1_0;
+
+   if (aString.match(CFPropertyList.JSONRE))
+       return CFPropertyList.FormatJSON_v1_0;
 
     return NULL;
 };
@@ -252,6 +257,75 @@ CFPropertyListSerializers[CFPropertyList.Format280North_v1_0] =
                     }
 };
 
+
+// JSON format
+
+CFPropertyListSerializers[CFPropertyList.FormatJSON_v1_0] =
+{
+    "start":        function()
+                    {
+                        return "";
+                    },
+
+    "finish":       function()
+                    {
+                        return "";
+                    },
+
+    "string" :      function(/*String*/ aString)
+                    {
+                        return '"' + aString.replace('"', '\"') + '"';
+                    },
+
+    "boolean" :     function(/*Boolean*/ aBoolean)
+                    {
+                        return aBoolean ? 'true' : 'false';
+                    },
+
+    "integer":      function(/*Integer*/ anInteger)
+                    {
+                        return "" + anInteger;
+                    },
+
+    "real":         function(/*Float*/ aFloat)
+                    {
+                        return "" + aFloat;
+                    },
+
+    "array":        function(/*Array*/ anArray, /*Object*/ serializers)
+                    {
+                        var index = 0,
+                            count = anArray.length,
+                            string = '[';
+
+                        for (; index < count; ++index)
+                            string += serializePropertyList(anArray[index], serializers);
+
+                        return string + ']';
+                    },
+
+    "dictionary":   function(/*CFDictionary*/ aDictionary, /*Object*/ serializers)
+                    {
+                        var keys = aDictionary._keys,
+                            index = 0,
+                            count = keys.length,
+                            string = '{';
+
+                        for (; index < count; ++index)
+                        {
+                            var key = keys[index];
+
+                            string += '"' + key.replace('"', '\"') + '":';
+                            string += serializePropertyList(aDictionary.valueForKey(key), serializers);
+
+                            if (index < count - 1)
+                                string += ',';
+                        }
+
+                        return string + '}';
+                    }
+};
+
 // Deserialization
 
 var XML_XML                 = "xml",
@@ -378,7 +452,10 @@ CFPropertyList.propertyListFromString = function(/*String*/ aString, /*Format*/ 
         return CFPropertyList.propertyListFromXML(aString);
 
     if (aFormat === CFPropertyList.Format280North_v1_0)
-        return propertyListFrom280NorthString(aString);
+        return CFPropertyList.propertyListFrom280NorthString(aString);
+
+    if (aFormat === CFPropertyList.FormatJSON_v1_0)
+        return CFPropertyList.propertyListFromJSONString(aString);
 
     return NULL;
 };
@@ -395,7 +472,7 @@ var ARRAY_MARKER        = "A",
     KEY_MARKER          = "K",
     END_MARKER          = "E";
 
-function propertyListFrom280NorthString(/*String*/ aString)
+CFPropertyList.propertyListFrom280NorthString = function(/*String*/ aString)
 {
     var stream = new MarkedStream(aString),
 
@@ -465,7 +542,9 @@ function propertyListFrom280NorthString(/*String*/ aString)
     }
 
     return plistObject;
-}
+};
+
+
 
 function encodeHTMLComponent(/*String*/ aString)
 {
@@ -570,10 +649,49 @@ CFPropertyList.propertyListFromXML = function(/*String | XMLNode*/ aStringOrXMLN
     return plistObject;
 };
 
+// JSON
+
+CFPropertyList.propertyListFromJSONString = function(/*String*/ aString)
+{
+    var JSONObject = JSON.parse(aString);
+
+    if (!JSONObject)
+        return NULL;
+
+    var convertObjectToDictionary = function(object)
+    {
+        if (typeof(object) !== 'object')
+            return object;
+
+        if (object.slice)
+        {
+            for (var i = 0; i < object.length; i++)
+                object[i] = convertObjectToDictionary(object[i]);
+
+            return object;
+        }
+
+        var dictionary = new CFMutableDictionary();
+
+        for (var key in object)
+        {
+            if (!object.hasOwnProperty(key))
+                continue;
+
+            dictionary.setValueForKey(key, convertObjectToDictionary(object[key]));
+        }
+
+        return dictionary;
+    };
+
+    return convertObjectToDictionary(JSONObject);
+};
+
 GLOBAL(kCFPropertyListOpenStepFormat)      = CFPropertyList.FormatOpenStep;
 GLOBAL(kCFPropertyListXMLFormat_v1_0)      = CFPropertyList.FormatXML_v1_0;
 GLOBAL(kCFPropertyListBinaryFormat_v1_0)   = CFPropertyList.FormatBinary_v1_0;
 GLOBAL(kCFPropertyList280NorthFormat_v1_0) = CFPropertyList.Format280North_v1_0;
+GLOBAL(kCFPropertyListJSONFormat_v1_0)     = CFPropertyList.FormatJSON_v1_0;
 
 GLOBAL(CFPropertyListCreate) = function()
 {
@@ -598,6 +716,16 @@ GLOBAL(CFPropertyListCreateFrom280NorthData) = function(/*Data*/ data)
 GLOBAL(CFPropertyListCreate280NorthData) = function(/*PropertyList*/ aPropertyList)
 {
     return CFPropertyList.dataFromPropertyList(aPropertyList, CFPropertyList.Format280North_v1_0);
+};
+
+GLOBAL(CFPropertyListCreateFromJSONData) = function(/*Data*/ data)
+{
+    return CFPropertyList.propertyListFromData(data, CFPropertyList.FormatJSON_v1_0);
+};
+
+GLOBAL(CFPropertyListCreateJSONData) = function(/*PropertyList*/ aPropertyList)
+{
+    return CFPropertyList.dataFromPropertyList(aPropertyList, CFPropertyList.FormatJSON_v1_0);
 };
 
 GLOBAL(CPPropertyListCreateFromData) = function(/*CFData*/ data, /*Format*/ aFormat)
