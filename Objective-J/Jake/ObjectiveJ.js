@@ -75,6 +75,12 @@ global.tasks.makeBundle = function(/* String */ name, /* Array */ dependencies, 
     options = options || {};
     dependencies = dependencies || [];
 
+    if (!options.sourcePaths)
+        fail('No source specified');
+
+    if (!options.buildDirectory)
+        fail('Build directory not specified');
+
     var targets = [],
         originalPlistPath = options.infoPlistPath || 'Info.plist',
         sourcePaths = options.sourcePaths.toArray(),
@@ -141,4 +147,11 @@ global.tasks.makeBundle = function(/* String */ name, /* Array */ dependencies, 
 global.tasks.makeFramework = function(/* String */ name, /* Array */ dependencies, /* Object */ options)
 {
     tasks.makeBundle(name, dependencies, options);
+};
+
+global.tasks.makeApplication = function(/* String */ name, /* Array */ dependencies, /* Object */ options)
+{
+    // Here read Build.plist
+    tasks.makeBundle(name + '-application', dependencies, options);
+    task(name, [name + '-application']);
 };
