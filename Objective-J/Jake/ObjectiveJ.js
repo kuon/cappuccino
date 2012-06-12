@@ -123,6 +123,7 @@ global.tasks.makeBundle = function(/* String */ name, /* Array */ dependencies, 
         targets.push(plistPath);
     });
 
+    desc('Build bundle for ' + name);
     task(name + '-bundle', targets.concat(dependencies));
 
     dependencies = [name + '-bundle'];
@@ -133,6 +134,7 @@ global.tasks.makeBundle = function(/* String */ name, /* Array */ dependencies, 
         dependencies = [name + '-package'];
     }
 
+    desc('Build ' + name);
     task(name, dependencies);
 };
 

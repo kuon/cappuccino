@@ -125,12 +125,25 @@ global.tasks.nodePackage = function(taskName, dependencies, options)
     var buildDir = options.buildDirectory || 'Build',
         productName = options.productName,
         packagesDir = PATH.join(buildDir, 'Packages'),
-        packageJSON = JSON.parse(FILE.readFileSync('package.json').toString()),
-        packageName = packageJSON.name,
-        packageDir = PATH.join(packagesDir, packageName),
+        packageJSON,
+        packageName,
+        packageDir,
+        packageJSONPath;
+
+    try
+    {
+        packageJSON = JSON.parse(FILE.readFileSync('package.json').toString());
+        packageName = packageJSON.name;
+        packageDir = PATH.join(packagesDir, packageName);
         packageJSONPath = PATH.join(packageDir, 'package.json');
+    }
+    catch(err)
+    {
+        fail('Invalid package.json');
+    }
 
 
+    desc('Build ' + taskName);
     task(taskName + '-build', dependencies, function()
     {
         if (!productName)
@@ -150,11 +163,9 @@ global.tasks.nodePackage = function(taskName, dependencies, options)
         jake.cpR('package.json', packageDir);
     });
 
-    task(taskName, [taskName + '-build'], function()
+    desc('Install ' + taskName);
+    task(taskName + '-install', [taskName + '-build'], function()
     {
-        if (!options.install)
-            return;
-
         var cmd = 'npm install -g ' + packageDir;
         jake.exec([cmd], function()
         {
@@ -162,4 +173,18 @@ global.tasks.nodePackage = function(taskName, dependencies, options)
             complete();
         }, {stdout:true, stderr:true});
     }, {async:true});
+
+    if (options.install)
+    {
+
+        desc(taskName);
+        task(taskName, [taskName + '-install']);
+    }
+    else
+    {
+        desc(taskName);
+        task(taskName, [taskName + '-build']);
+    }
+
+
 };
