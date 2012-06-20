@@ -1,7 +1,9 @@
 require('./Objective-J/Jake/Base');
 
+directory('node_modules');
+
 // Required packages (bootstrap)
-file('node_modules/uglify-js', function()
+file('node_modules/uglify-js', ['node_modules'], function()
 {
     var cmd = 'npm install uglify-js';
     jake.exec([cmd], function()
