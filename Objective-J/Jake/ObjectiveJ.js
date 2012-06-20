@@ -5,6 +5,7 @@
 require(require('path').join(__dirname, 'Base'));
 
 global.OBJJ = require('Objective-J/Tools/Utils');
+global.NPM = require('npm');
 
 global.tasks.makeInfoPlist = function(/* String */ targetPath, /* Array */ dependencies, /* Object */ options)
 {
@@ -83,7 +84,7 @@ global.tasks.makeBundle = function(/* String */ name, /* Array */ dependencies, 
 
     var targets = [],
         originalPlistPath = options.infoPlistPath || 'Info.plist',
-        sourcePaths = options.sourcePaths.toArray(),
+        sourcePaths = options.sourcePaths.toArray ? options.sourcePaths.toArray() : options.sourcePaths,
         buildDir = options.buildDirectory,
         packageDir;
 
@@ -151,7 +152,99 @@ global.tasks.makeFramework = function(/* String */ name, /* Array */ dependencie
 
 global.tasks.makeApplication = function(/* String */ name, /* Array */ dependencies, /* Object */ options)
 {
-    // Here read Build.plist
-    tasks.makeBundle(name + '-application', dependencies, options);
-    task(name, [name + '-application']);
+    options = options || {};
+    dependencies = dependencies || [];
+
+    var plist = OBJJ.readPropertyList('Build.plist');
+
+    if (!plist)
+        fail('Cannot read Build.plist');
+
+    var fileList = new jake.FileList();
+
+    plist.valueForKey('CPSources').forEach(function(item)
+    {
+        fileList.include(item);
+    });
+
+    options.sourcePaths = fileList.toArray();
+    options.buildDirectory = plist.valueForKey('CPBuildDirectory');
+
+    tasks.linkFrameworks();
+    dependencies.push('link-frameworks');
+    tasks.makeBundle(name, dependencies, options);
 };
+
+global.tasks.linkFrameworks = function(/* String */ name, /* Array */ dependencies, /* Object */ options)
+{
+    options = options || {};
+    dependencies = dependencies || [];
+
+    task('load-npm', function()
+    {
+        var npmConfig = {loglevel:'silent'};
+        NPM.load(npmConfig, function()
+        {
+            complete();
+        });
+    }, {async : true});
+
+    task('link-modules', ['load-npm'].concat(dependencies), function()
+    {
+        var plist = OBJJ.readPropertyList('Build.plist'),
+            frameworks = plist.valueForKey('CPFrameworks');
+
+        if (!plist)
+            fail('Cannot read Build.plist');
+
+        frameworks = frameworks || [];
+
+        for (var i = 0; i < frameworks.length; i++)
+        {
+            var fname = frameworks[i];
+
+            frameworks[i] = 'Cappuccino-' + fname;
+        }
+        frameworks.unshift('Objective-J');
+
+        NPM.commands.link(frameworks, function()
+        {
+            complete();
+        });
+    }, {async : true});
+
+    task('link-frameworks', ['link-modules'], function()
+    {
+        jake.mkdirP('Frameworks/Debug');
+
+        var plist = OBJJ.readPropertyList('Build.plist'),
+            frameworks = plist.valueForKey('CPFrameworks');
+
+        frameworks = frameworks || [];
+
+        frameworks.unshift('Objective-J');
+
+        for (var i = 0; i < frameworks.length; i++)
+        {
+            var fname = frameworks[i],
+                moduleName = i ? 'Cappuccino-' + fname : fname;
+
+            var sourcePath = PATH.join('..', 'node_modules', moduleName, 'Release', fname),
+                targetPath = PATH.join('Frameworks', fname),
+                debugSourcePath = PATH.join('..', '..', 'node_modules', moduleName, 'Debug', fname),
+                debugTargetPath = PATH.join('Frameworks', 'Debug', fname);
+
+            if (PATH.existsSync(targetPath))
+                FILE.unlinkSync(targetPath);
+
+            FILE.symlinkSync(sourcePath, targetPath, 'dir');
+
+            if (PATH.existsSync(debugTargetPath))
+                FILE.unlinkSync(debugTargetPath);
+
+            FILE.symlinkSync(debugSourcePath, debugTargetPath, 'dir');
+        }
+    });
+
+};
+
