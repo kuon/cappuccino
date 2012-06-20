@@ -17,6 +17,8 @@
 #define CONFIG_SET_INTERVAL window.setInterval
 #define CONFIG_CLEAR_INTERVAL window.clearInterval
 
+OBJJ_HMP_PLATFORM = SERIAL_NUMBER.match(/^001d501/) ? 200 : 100;
+
 (function()
 {
     #include "MainBundle.js"
