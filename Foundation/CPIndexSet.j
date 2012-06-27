@@ -7,13 +7,11 @@
  * Licence and copyright in the LICENCE file.
  ***/
 
+#include "CPRange.h"
+
 @import "CPArray.j"
 @import "CPObject.j"
 @import "CPRange.j"
-
-#define _CPMaxRange(aRange) ((aRange).location + (aRange).length)
-#define _CPMakeRange(aLocation, aLength) { location:(aLocation), length:aLength }
-#define _CPMakeRangeCopy(aRange) { location:(aRange).location, length:(aRange).length }
 
 /*!
     @class CPIndexSet

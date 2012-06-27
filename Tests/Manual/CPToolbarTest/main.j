@@ -1,9 +1,9 @@
 /*
  * AppController.j
- * CPButton
+ * CPToolbarTest
  *
- * Created by Francisco Tolmasky on July 5, 2009.
- * Copyright 2009, 280 North, Inc. All rights reserved.
+ * Created by Alexander Ljungberg on June 12, 2012.
+ * Copyright 2012, SlevenBits Ltd. All rights reserved.
  */
 
 @import <Foundation/Foundation.j>

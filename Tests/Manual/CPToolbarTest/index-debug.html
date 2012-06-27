@@ -4,10 +4,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <!--
  index-debug.html
- CPButton
+ CPToolbarTest
 
- Created by Francisco Tolmasky on July 5, 2009.
- Copyright 2009, 280 North, Inc. All rights reserved.
+ Created by Alexander Ljungberg on June 12, 2012.
+ Copyright 2012, SlevenBits Ltd. All rights reserved.
 -->
     <head>
         <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7, chrome=1" />
@@ -20,14 +20,14 @@
         <link rel="apple-touch-icon" href="Resources/icon.png" />
         <link rel="apple-touch-startup-image" href="Resources/default.png" />
 
-        <title>CPButton</title>
+        <title>CPToolbarTest</title>
 
         <script type="text/javascript">
             OBJJ_MAIN_FILE = "main.j";
             OBJJ_INCLUDE_PATHS = ["Frameworks/Debug", "Frameworks", "SomethingElse"];
         </script>
 
-        <script type="text/javascript" src="Frameworks/Debug/Objective-J/Objective-J.js" charset="UTF-8"></script>
+        <script src="Frameworks/Debug/Objective-J/Objective-J.js" type="text/javascript" charset="UTF-8"></script>
 
         <script type="text/javascript">
             objj_msgSend_reset();
@@ -52,6 +52,10 @@
             // Uncomment to enable a specific logger:
             //CPLogRegister(CPLogConsole);
             //CPLogRegister(CPLogPopup);
+
+            // Tag view DOM elements with a "data-cappuccino-view" attribute that contains
+            // the class name of the view that created them. Comment this or set to false to disable.
+            appkit_tag_dom_elements = true;
         </script>
 
         <style type="text/css">
@@ -77,7 +81,7 @@
                 <script type="text/javascript">
                     document.write("<div id='container'><p id='content'>" +
                                    "<img id='loadgraphic' width='16' height='16' src='Resources/spinner.gif' /> " +
-                                   "Loading CPButton...</p></div>");
+                                   "Loading CPToolbarTest...</p></div>");
                 </script>
 
                 <noscript>
