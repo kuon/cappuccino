@@ -3,10 +3,7 @@ require('Objective-J/Jake');
 var sourcePaths = new jake.FileList(),
     BUILD_DIR = '../Build';
 
-sourcePaths.include('*.j');
-sourcePaths.include('CPArray/*.j');
-sourcePaths.include('CPPredicate/*.j');
-sourcePaths.include('CPSet/*.j');
+sourcePaths.include('**/*.j');
 
 tasks.makeFramework('Foundation', nil,
     {
