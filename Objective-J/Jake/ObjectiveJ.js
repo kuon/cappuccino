@@ -128,6 +128,16 @@ global.tasks.makeBundle = function(/* String */ name, /* Array */ dependencies, 
         };
         tasks.makeInfoPlist(plistPath, [staticArchivePath], infoPlistOptions);
         targets.push(plistPath);
+
+        if (options.copyFrameworks)
+        {
+            var frameworksDir = PATH.join(finalBuildDir, 'Frameworks');
+            dependencies.push(frameworksDir);
+            task(frameworksDir, function()
+            {
+                jake.cpR('Frameworks', frameworksDir);
+            });
+        }
     });
 
     desc('Build bundle for ' + name);
@@ -154,6 +164,8 @@ global.tasks.makeApplication = function(/* String */ name, /* Array */ dependenc
 {
     options = options || {};
     dependencies = dependencies || [];
+
+    options.copyFrameworks = true;
 
     var plist = OBJJ.readPropertyList('Build.plist');
 
