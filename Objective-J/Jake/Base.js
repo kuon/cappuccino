@@ -85,6 +85,7 @@ global.tasks.copy = function(/* String */ targetPath, /* String */ sourcePath, /
     file(targetPath, dependencies, function()
     {
         console.log('[COPY] %s', PATH.basename(targetPath));
+        jake.rmRf(targetPath);
         jake.cpR(sourcePath, targetPath);
     });
 };
