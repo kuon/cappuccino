@@ -133,9 +133,16 @@ global.tasks.makeBundle = function(/* String */ name, /* Array */ dependencies, 
         {
             var frameworksDir = PATH.join(finalBuildDir, 'Frameworks');
             dependencies.push(frameworksDir);
-            task(frameworksDir, function()
+            tasks.copy(frameworksDir, 'Frameworks');
+        }
+
+        if (options.copyFiles)
+        {
+            options.copyFiles.forEach(function(filePath)
             {
-                jake.cpR('Frameworks', frameworksDir);
+                var dstPath = PATH.join(finalBuildDir, filePath);
+                dependencies.push(dstPath);
+                tasks.copy(dstPath, filePath);
             });
         }
     });
@@ -181,6 +188,12 @@ global.tasks.makeApplication = function(/* String */ name, /* Array */ dependenc
 
     options.sourcePaths = fileList.toArray();
     options.buildDirectory = plist.valueForKey('CPBuildDirectory');
+    options.copyFiles = plist.valueForKey('CPCopyFiles');
+
+    var res = plist.valueForKey('CPResources');
+
+    if (res)
+        options.copyFiles =  options.copyFiles.concat(res);
 
     tasks.linkFrameworks();
     dependencies.push('link-frameworks');
