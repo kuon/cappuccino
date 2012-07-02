@@ -129,11 +129,15 @@ global.tasks.makeBundle = function(/* String */ name, /* Array */ dependencies, 
         tasks.makeInfoPlist(plistPath, [staticArchivePath], infoPlistOptions);
         targets.push(plistPath);
 
-        if (options.copyFrameworks)
+        if (options.copyFrameworks && options.frameworks)
         {
-            var frameworksDir = PATH.join(finalBuildDir, 'Frameworks');
-            dependencies.push(frameworksDir);
-            tasks.copy(frameworksDir, 'Frameworks');
+            options.frameworks.forEach(function(fName)
+            {
+                var srcDir = PATH.join('Frameworks', fName),
+                    dstDir = PATH.join(finalBuildDir, 'Frameworks', fName);
+                dependencies.push(dstDir);
+                tasks.copy(dstDir, srcDir);
+            });
         }
 
         if (options.copyFiles)
@@ -186,17 +190,20 @@ global.tasks.makeApplication = function(/* String */ name, /* Array */ dependenc
         fileList.include(item);
     });
 
-    options.sourcePaths = fileList.toArray();
-    options.buildDirectory = plist.valueForKey('CPBuildDirectory');
-    options.copyFiles = plist.valueForKey('CPCopyFiles');
+    options.sourcePaths = fileList.toArray() || [];
+    options.buildDirectory = plist.valueForKey('CPBuildDirectory') || 'Build';
+    options.copyFiles = plist.valueForKey('CPCopyFiles') || [];
+    options.frameworks = plist.valueForKey('CPFrameworks') || ['Objective-J', 'Foundation', 'AppKit'];
 
     var res = plist.valueForKey('CPResources');
 
     if (res)
-        options.copyFiles =  options.copyFiles.concat(res);
+        options.copyFiles = options.copyFiles.concat(res);
 
     tasks.linkFrameworks();
-    dependencies.push('link-frameworks');
+    if (options.alwaysLinkFrameworks)
+        dependencies.push('link-frameworks');
+
     tasks.makeBundle(name, dependencies, options);
 };
 
