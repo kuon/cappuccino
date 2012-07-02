@@ -85,12 +85,10 @@ global.tasks.copy = function(/* String */ targetPath, /* String */ sourcePath, /
     file(targetPath, dependencies, function()
     {
         console.log('[COPY] %s', PATH.basename(targetPath));
-        try
-        {
-            if (FILE.lstatSync(sourcePath).isDirectory() && FILE.lstatSync(targetPath).isDirectory())
-                targetPath = PATH.dirname(targetPath);
-        }
-        catch(e) {}
+
+        if (options.copyToDirectory)
+            targetPath = PATH.dirname(targetPath);
+
         jake.cpR(sourcePath, targetPath);
     });
 };

@@ -136,7 +136,7 @@ global.tasks.makeBundle = function(/* String */ name, /* Array */ dependencies, 
                 var srcDir = PATH.join('Frameworks', fName),
                     dstDir = PATH.join(finalBuildDir, 'Frameworks', fName);
                 dependencies.push(dstDir);
-                tasks.copy(dstDir, srcDir);
+                tasks.copy(dstDir, srcDir, [], {copyToDirectory: true});
             });
         }
 
@@ -146,7 +146,7 @@ global.tasks.makeBundle = function(/* String */ name, /* Array */ dependencies, 
             {
                 var dstPath = PATH.join(finalBuildDir, filePath);
                 dependencies.push(dstPath);
-                tasks.copy(dstPath, filePath);
+                tasks.copy(dstPath, filePath, [], {copyToDirectory: true});
             });
         }
     });
@@ -194,13 +194,15 @@ global.tasks.makeApplication = function(/* String */ name, /* Array */ dependenc
     options.buildDirectory = plist.valueForKey('CPBuildDirectory') || 'Build';
     options.copyFiles = plist.valueForKey('CPCopyFiles') || [];
     options.frameworks = plist.valueForKey('CPFrameworks') || ['Objective-J', 'Foundation', 'AppKit'];
+    if (options.frameworks.indexOf('Objective-J') === -1)
+        options.frameworks.unshift('Objective-J');
 
     var res = plist.valueForKey('CPResources');
 
     if (res)
         options.copyFiles = options.copyFiles.concat(res);
 
-    tasks.linkFrameworks();
+    tasks.linkFrameworks(nil, [], {frameworks:options.frameworks});
     if (options.alwaysLinkFrameworks)
         dependencies.push('link-frameworks');
 
@@ -223,21 +225,16 @@ global.tasks.linkFrameworks = function(/* String */ name, /* Array */ dependenci
 
     task('link-modules', ['load-npm'].concat(dependencies), function()
     {
-        var plist = OBJJ.readPropertyList('Build.plist'),
-            frameworks = plist.valueForKey('CPFrameworks');
-
-        if (!plist)
-            fail('Cannot read Build.plist');
-
-        frameworks = frameworks || [];
+        var frameworks = (options.frameworks || []).slice(0);
 
         for (var i = 0; i < frameworks.length; i++)
         {
             var fname = frameworks[i];
+            if (fname == 'Objective-J')
+                continue;
 
             frameworks[i] = 'Cappuccino-' + fname;
         }
-        frameworks.unshift('Objective-J');
 
         NPM.commands.link(frameworks, function()
         {
@@ -249,31 +246,30 @@ global.tasks.linkFrameworks = function(/* String */ name, /* Array */ dependenci
     {
         jake.mkdirP('Frameworks/Debug');
 
-        var plist = OBJJ.readPropertyList('Build.plist'),
-            frameworks = plist.valueForKey('CPFrameworks');
-
-        frameworks = frameworks || [];
-
-        frameworks.unshift('Objective-J');
+        var frameworks = (options.frameworks || []).slice(0);
 
         for (var i = 0; i < frameworks.length; i++)
         {
             var fname = frameworks[i],
-                moduleName = i ? 'Cappuccino-' + fname : fname;
+                moduleName = (fname == 'Objective-J' ? fname : 'Cappuccino-' + fname);
 
             var sourcePath = PATH.join('..', 'node_modules', moduleName, 'Release', fname),
                 targetPath = PATH.join('Frameworks', fname),
                 debugSourcePath = PATH.join('..', '..', 'node_modules', moduleName, 'Debug', fname),
                 debugTargetPath = PATH.join('Frameworks', 'Debug', fname);
 
-            if (PATH.existsSync(targetPath))
+            try
+            {
                 FILE.unlinkSync(targetPath);
+            }
+            catch(e) {}
+            try
+            {
+                FILE.unlinkSync(debugTargetPath);
+            }
+            catch(e) {}
 
             FILE.symlinkSync(sourcePath, targetPath, 'dir');
-
-            if (PATH.existsSync(debugTargetPath))
-                FILE.unlinkSync(debugTargetPath);
-
             FILE.symlinkSync(debugSourcePath, debugTargetPath, 'dir');
         }
     });
