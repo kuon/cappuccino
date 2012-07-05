@@ -200,7 +200,14 @@ global.tasks.makeApplication = function(/* String */ name, /* Array */ dependenc
     var res = plist.valueForKey('CPResources');
 
     if (res)
-        options.copyFiles = options.copyFiles.concat(res);
+    {
+        var resourceFileList = new jake.FileList();
+        res.forEach(function(item)
+        {
+            resourceFileList.include(item);
+        });
+        options.copyFiles = options.copyFiles.concat(resourceFileList.toArray());
+    }
 
     tasks.linkFrameworks(nil, [], {frameworks:options.frameworks});
     if (options.alwaysLinkFrameworks)
