@@ -25,15 +25,11 @@ exports.compile = function(/* String */ source, /* Object */ options)
 
     if (options.minify)
     {
-        var parser = require("uglify-js").parser,
-            uglify = require("uglify-js").uglify,
+        var uglify = require("uglify-js"),
             compiledCode = executable.code(),
             compressedCode;
 
-        compressedCode = parser.parse(compiledCode);
-        compressedCode = uglify.ast_mangle(compressedCode);
-        compressedCode = uglify.ast_squeeze(compressedCode);
-        compressedCode = uglify.gen_code(compressedCode);
+        compressedCode = uglify.minify(compiledCode, {fromString: true}).code;
         executable.setCode(compressedCode);
     }
 

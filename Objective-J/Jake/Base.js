@@ -31,8 +31,7 @@ global.tasks.minify = function(/* String */ targetPath, /* String */ sourcePath,
 
     file(targetPath, dependencies, function()
     {
-        var parser = require("uglify-js").parser,
-            uglify = require("uglify-js").uglify,
+        var uglify = require("uglify-js"),
             originalCode,
             compressedCode;
 
@@ -42,7 +41,7 @@ global.tasks.minify = function(/* String */ targetPath, /* String */ sourcePath,
 
         try
         {
-            compressedCode = parser.parse(originalCode, true);
+            compressedCode = uglify.minify(sourcePath).code;
         }
         catch(error)
         {
@@ -66,9 +65,6 @@ global.tasks.minify = function(/* String */ targetPath, /* String */ sourcePath,
             throw error;
         }
 
-        compressedCode = uglify.ast_mangle(compressedCode);
-        compressedCode = uglify.ast_squeeze(compressedCode);
-        compressedCode = uglify.gen_code(compressedCode);
         FILE.writeFileSync(targetPath, compressedCode);
     });
 };
